@@ -68,6 +68,14 @@ Notes:
 - If you ever want to switch the recipient address, just change the email in the
   form's `action` attribute in `index.html`.
 
+## Analytics
+
+Both `index.html` and `danke.html` include Vercel's vanilla-JS Web Analytics snippet
+(no npm install — there's no build step here, so the `@vercel/analytics` package/its
+`/next` import don't apply). It's inert on any other host; it only reports data once
+the site is deployed on Vercel with **Web Analytics** enabled for the project in the
+Vercel dashboard.
+
 ## Things to double check before going live
 
 - **Video codec**: the original phone export (`materiarls/Background.MP4`) is HEVC
