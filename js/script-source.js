@@ -5,21 +5,23 @@ import { injectSpeedInsights } from '@vercel/speed-insights';
 injectSpeedInsights();
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Mobile nav toggle
+  // Mobile nav toggle (not present on danke.html)
   const navToggle = document.getElementById('navToggle');
   const mainNav = document.getElementById('mainNav');
 
-  navToggle.addEventListener('click', () => {
-    const isOpen = mainNav.classList.toggle('open');
-    navToggle.setAttribute('aria-expanded', isOpen);
-  });
-
-  mainNav.querySelectorAll('a').forEach(link => {
-    link.addEventListener('click', () => {
-      mainNav.classList.remove('open');
-      navToggle.setAttribute('aria-expanded', false);
+  if (navToggle && mainNav) {
+    navToggle.addEventListener('click', () => {
+      const isOpen = mainNav.classList.toggle('open');
+      navToggle.setAttribute('aria-expanded', isOpen);
     });
-  });
+
+    mainNav.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        mainNav.classList.remove('open');
+        navToggle.setAttribute('aria-expanded', false);
+      });
+    });
+  }
 
   // Menu tabs
   const tabs = document.querySelectorAll('.menu-tab');
@@ -57,8 +59,11 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('pageshow', resumeHeroVideo);
   }
 
-  // Footer year
-  document.getElementById('year').textContent = new Date().getFullYear();
+  // Footer year (not present on danke.html)
+  const yearEl = document.getElementById('year');
+  if (yearEl) {
+    yearEl.textContent = new Date().getFullYear();
+  }
 
   // Plain HTML form POST to FormSubmit (not AJAX): FormSubmit's autoresponse
   // email to the guest only fires on a standard POST with reCAPTCHA enabled —
