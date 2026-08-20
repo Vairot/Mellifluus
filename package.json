@@ -1,0 +1,19 @@
+{
+  "name": "mellifluus",
+  "version": "1.0.0",
+  "description": "Mellifluus - Specialty Coffee & 100% Halal Café in Minden",
+  "type": "module",
+  "scripts": {
+    "build": "node build.js",
+    "dev": "node build.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@vercel/speed-insights": "^1.0.12"
+  },
+  "devDependencies": {
+    "esbuild": "^0.21.5"
+  }
+}

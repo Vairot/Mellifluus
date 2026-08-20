@@ -31,13 +31,33 @@ markup with no risk of stale or blurry scans. Those source photos still live und
 
 ## Running locally
 
-No build step — it's plain HTML/CSS/JS. Just serve the folder, e.g.:
+### Setup
+
+First, install dependencies:
+
+```bash
+npm install
+```
+
+Then build the JavaScript bundle (includes Vercel Speed Insights):
+
+```bash
+npm run build
+```
+
+This will bundle `js/script-source.js` (with Speed Insights) into `js/script.js`.
+
+### Development
+
+After building, serve the folder:
 
 ```bash
 python3 -m http.server 8000
 ```
 
 Then open `http://localhost:8000`.
+
+**Note:** If you modify `js/script-source.js`, run `npm run build` again to rebuild the bundle.
 
 ## Reservation form
 
@@ -70,11 +90,25 @@ Notes:
 
 ## Analytics
 
+### Web Analytics
+
 Both `index.html` and `danke.html` include Vercel's vanilla-JS Web Analytics snippet
 (no npm install — there's no build step here, so the `@vercel/analytics` package/its
 `/next` import don't apply). It's inert on any other host; it only reports data once
 the site is deployed on Vercel with **Web Analytics** enabled for the project in the
 Vercel dashboard.
+
+### Speed Insights
+
+The site includes Vercel Speed Insights via the `@vercel/speed-insights` package, which
+is bundled into `js/script.js` during the build process. This tracks real-user performance
+metrics (Core Web Vitals) and requires:
+
+1. **Enabling Speed Insights** in your Vercel project dashboard (under the Speed Insights section)
+2. **Deploying to Vercel** — the tracking script will be available at `/_vercel/speed-insights/*` after deployment
+
+Speed Insights will only collect data when deployed on Vercel with the feature enabled. It remains
+inactive during local development and on other hosting platforms.
 
 ## Things to double check before going live
 
