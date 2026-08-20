@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mellifluus – Specialty Coffee in Minden</title>
+<meta name="description" content="Mellifluus – Specialty Coffee &amp; 100% Halal Café in Minden Altstadt. Speisekarte, Öffnungszeiten, Lage und Tischreservierung.">
+<link rel="icon" href="assets/images/logo/mellifluus-logo.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header" id="top">
+  <div class="container header-inner">
+    <a href="#top" class="brand">
+      <img src="assets/images/logo/mellifluus-logo.jpg" alt="Mellifluus Logo" class="brand-logo">
+      <span class="brand-name">Mellifluus</span>
+    </a>
+    <button class="nav-toggle" id="navToggle" aria-label="Menü öffnen" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="main-nav" id="mainNav">
+      <a href="#speisekarte">Speisekarte</a>
+      <a href="#lage">Lage &amp; Zeiten</a>
+      <a href="#reservierung">Reservierung</a>
+      <a href="#reservierung" class="nav-cta">Tisch reservieren</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <video class="hero-video" autoplay muted loop playsinline>
+    <source src="assets/video/hero-background.mp4" type="video/mp4">
+  </video>
+  <div class="hero-overlay"></div>
+  <div class="hero-content container">
+    <img src="assets/images/logo/mellifluus-logo.jpg" alt="Mellifluus Logo" class="hero-logo">
+    <h1>Mellifluus</h1>
+    <p class="hero-tagline">Specialty Coffee &middot; 100% Halal</p>
+    <p class="hero-address">Kampstraße 7, 32423 Minden (Altstadt)</p>
+    <div class="hero-buttons">
+      <a href="#reservierung" class="btn btn-primary">Tisch reservieren</a>
+      <a href="#speisekarte" class="btn btn-outline">Speisekarte ansehen</a>
+    </div>
+  </div>
+</section>
+
+<section id="speisekarte" class="section menu-section">
+  <div class="container">
+    <h2 class="section-title">Speisekarte</h2>
+    <p class="section-subtitle">Frisch, hausgemacht &amp; mit Liebe zubereitet</p>
+
+    <div class="menu-tabs" role="tablist">
+      <button class="menu-tab active" data-target="heisse" role="tab" aria-selected="true">Heiße Getränke</button>
+      <button class="menu-tab" data-target="kalte" role="tab" aria-selected="false">Kalte Getränke</button>
+      <button class="menu-tab" data-target="speisen" role="tab" aria-selected="false">Speisen</button>
+      <button class="menu-tab" data-target="suesses" role="tab" aria-selected="false">Süßes</button>
+    </div>
+
+    <div class="menu-panels">
+
+      <!-- Heiße Getränke -->
+      <div class="menu-panel active" id="heisse">
+        <div class="menu-card">
+          <div class="menu-columns">
+            <div class="menu-group">
+              <h3 class="menu-group-title">Specialty Coffee</h3>
+              <ul class="menu-list">
+                <li class="menu-item"><div class="menu-item-head"><span class="menu-item-name">Espresso <span class="menu-item-note">(single/double)</span></span><span class="menu-item-price">2.50 / 3.20</span></div></li>
+                <li class="menu-item"><div class="menu-item-head"><span class="menu-item-name">Espresso Macchiato</span><span class="menu-item-price">3.20</span></div></li>
+                <li class="menu-item"><div class="menu-item-head"><span class="menu-item-name">Cortado</span><span class="menu-item-price">3.60</span></div></li>
+                <li class="menu-item"><div class="menu-item-head"><span class="menu-item-name">Americano</span><span class="menu-item-price">3.60</span></div></li>
+                <li class="menu-item"><div class="menu-item-head"><span class="menu-item-name">Cappuccino</span><span class="menu-item-price">3.90</span></div></li>
+                <li class="menu-item"><div class="menu-item-head"><span class="menu-item-name">Flat White</span><span class="menu-item-price">4.10</span></div></li>
+                <li class="menu-item"><div class="menu-item-head"><span class="menu-item-name">Latte Macchiato</span><span class="menu-item-price">4.20</span></div></li>
+                <li class="menu-item"><div class="menu-item-head"><span class="menu-item-name">Mocha <span class="menu-item-note">(Vollmilch/Zartbitter)</span></span><span class="menu-item-price">4.60</span></div></li>
+                <li class="menu-item"><div class="menu-item-head"><span class="menu-item-name">Filterkaffee</span><span class="menu-item-price">3.50</span></div></li>
+                <li class="menu-item"><div class="menu-item-head"><span class="menu-item-name">Milchkaffee</span><span class="menu-item-price">3.90</span></div></li>
+              </ul>
+            </div>
+            <div class="menu-group">
+              <h3 class="menu-group-title">Signature &amp; Klassiker</h3>
+              <ul class="menu-list">
+                <li class="menu-item"><div class="menu-item-head"><span class="menu-item-name">Heiße Schokolade <span class="menu-item-note">(Vollmilch/Zartbitter/Weiß)</span></span><span class="menu-item-price">4.50</span></div></li>
+                <li class="menu-item"><div class="menu-item-head"><span class="menu-item-name">Goldene Milch</span><span class="menu-item-price">4.70</span></div></li>
+                <li class="menu-item"><div class="menu-item-head"><span class="menu-item-name">Spanish Latte</span><span class="menu-item-price">4.70</span></div></li>
+                <li class="menu-item"><div class="menu-item-head"><span class="menu-item-name">Chai Latte</span><span class="menu-item-price">4.50</span></div></li>
+                <li class="menu-item"><div class="menu-item-head"><span class="menu-item-name">Traditional Mokka</span><span class="menu-item-price">3.50</span></div></li>
+                <li class="menu-item"><div class="menu-item-head"><span class="menu-item-name">Helva Latte</span><span class="menu-item-price">4.90</span></div></li>
+                <li class="menu-item"><div class="menu-item-head"><span class="menu-item-name">Tee nach Wahl</span><span class="menu-item-price">2.90</span></div></li>
+              </ul>
+            </div>
+          </div>
+          <div class="menu-group menu-group-full menu-group-centered">
+            <h3 class="menu-group-title">Matcha</h3>
+            <ul class="menu-list menu-list-inline">
+              <li class="menu-item"><div class="menu-item-head"><span class="menu-item-name">Matcha Latte</span><span class="menu-item-price">4.90</span></div></li>
+              <li class="menu-item"><div class="menu-item-head"><span class="menu-item-name">Dirty Matcha Latte</span><span class="menu-item-price">5.20</span></div></li>
+              <li class="menu-item"><div class="menu-item-head"><span class="menu-item-name">White Choc. Matcha Latte</span><span class="menu-item-price">5.50</span></div></li>
+              <li class="menu-item"><div class="menu-item-head"><span class="menu-item-name">Matcha Pure</span><span class="menu-item-price">4.50</span></div></li>
+              <li class="menu-item"><div class="menu-item-head"><span class="menu-item-name">Spanish Matcha Latte</span><span class="menu-item-price">5.20</span></div></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Kalte Getränke -->
+      <div class="menu-panel" id="kalte">
+        <div class="menu-card">
+          <div class="menu-columns">
+            <div class="menu-group">
+              <h3 class="menu-group-title">Iced Matcha</h3>
+              <ul class="menu-list">
+                <li class="menu-item"><div class="menu-item-head"><span class="menu-item-name">Matcha Pure</span><span class="menu-item-price">5.50</span></div></li>
+                <li class="menu-item"><div class="menu-item-head"><span class="menu-item-name">Matcha Latte</span><span class="menu-item-price">5.90</span></div></li>
+                <li class="menu-item"><div class="menu-item-head"><span class="menu-item-name">Strawberry Matcha Latte</span><span class="menu-item-price">6.50</span></div></li>
+                <li class="menu-item"><div class="menu-item-head"><span class="menu-item-name">Mango Matcha Latte</span><span class="menu-item-price">6.50</span></div></li>
+                <li class="menu-item"><div class="menu-item-head"><span class="menu-item-name">Vanilla Sea Salt Matcha</span><span class="menu-item-price">6.50</span></div></li>
+                <li class="menu-item"><div class="menu-item-head"><span class="menu-item-name">Ube Matcha Latte</span><span class="menu-item-price">7.00</span></div></li>
+                <li class="menu-item"><div class="menu-item-head"><span class="menu-item-name">Dirty Matcha Latte</span><span class="menu-item-price">6.80</span></div></li>
+                <li class="menu-item"><div class="menu-item-head"><span class="menu-item-name">Orange Matcha</span><span class="menu-item-price">6.50</span></div></li>
+                <li class="menu-item"><div class="menu-item-head"><span class="menu-item-name">Lychee Matcha</span><span class="menu-item-price">7.50</span></div></li>
+                <li class="menu-item"><div class="menu-item-head"><span class="menu-item-name">Spanish Matcha Latte</span><span class="menu-item-price">6.50</span></div></li>
+                <li class="menu-item"><div class="menu-item-head"><span class="menu-item-name">Bananabread Matcha Latte</span><span class="menu-item-price">6.50</span></div></li>
+                <li class="menu-item"><div class="menu-item-head"><span class="menu-item-name">Kokoswasser Matcha Cloud</span><span class="menu-item-price">6.50</span></div></li>
+              </ul>
+              <p class="menu-note"><strong>Matcha-Standard:</strong> Alle Matcha-Getränke bereiten wir ohne Aufpreis mit Haferdrink zu. Andere Milchsorten auf Wunsch erhältlich.</p>
+
+              <h3 class="menu-group-title menu-group-title-spaced">Iced Signatures</h3>
+              <ul class="menu-list">
+                <li class="menu-item"><div class="menu-item-head"><span class="menu-item-name">Frappé Caramel</span><span class="menu-item-price">6.00</span></div></li>
+                <li class="menu-item"><div class="menu-item-head"><span class="menu-item-name">Orange Espresso Tonic</span><span class="menu-item-price">5.50</span></div></li>
+                <li class="menu-item"><div class="menu-item-head"><span class="menu-item-name">Vanilla Ube Latte</span><span class="menu-item-price">6.50</span></div></li>
+                <li class="menu-item"><div class="menu-item-head"><span class="menu-item-name">Iced Goldene Milch</span><span class="menu-item-price">5.50</span></div></li>
+                <li class="menu-item"><div class="menu-item-head"><span class="menu-item-name">Iced Chai Latte</span><span class="menu-item-price">5.50</span></div></li>
+                <li class="menu-item"><div class="menu-item-head"><span class="menu-item-name">Iced Chocolate Latte</span><span class="menu-item-price">5.00</span></div></li>
+                <li class="menu-item"><div class="menu-item-head"><span class="menu-item-name">Affogato</span><span class="menu-item-price">5.00</span></div></li>
+                <li class="menu-item"><div class="menu-item-head"><span class="menu-item-name">Milchshake</span><span class="menu-item-price">6.00</span></div></li>
+                <li class="menu-item"><div class="menu-item-head"><span class="menu-item-name">Kokoswasser Espresso Cloud</span><span class="menu-item-price">6.00</span></div></li>
+                <li class="menu-item"><div class="menu-item-head"><span class="menu-item-name">Earl Grey Lavender</span><span class="menu-item-price">5.50</span></div></li>
+              </ul>
+            </div>
+            <div class="menu-group">
+              <h3 class="menu-group-title">Iced Coffee</h3>
+              <ul class="menu-list">
+                <li class="menu-item"><div class="menu-item-head"><span class="menu-item-name">Iced Latte</span><span class="menu-item-price">5.00</span></div></li>
+                <li class="menu-item"><div class="menu-item-head"><span class="menu-item-name">Iced Americano</span><span class="menu-item-price">4.20</span></div></li>
+                <li class="menu-item"><div class="menu-item-head"><span class="menu-item-name">Iced Americano Vanilla Cloud</span><span class="menu-item-price">5.50</span></div></li>
+                <li class="menu-item"><div class="menu-item-head"><span class="menu-item-name">Iced Vanilla Latte</span><span class="menu-item-price">6.00</span></div></li>
+                <li class="menu-item"><div class="menu-item-head"><span class="menu-item-name">Cold Brew</span><span class="menu-item-price">4.50</span></div></li>
+                <li class="menu-item"><div class="menu-item-head"><span class="menu-item-name">Cold Brew Vanilla Cloud</span><span class="menu-item-price">6.00</span></div></li>
+                <li class="menu-item"><div class="menu-item-head"><span class="menu-item-name">Iced Spanish Latte</span><span class="menu-item-price">5.50</span></div></li>
+              </ul>
+              <p class="menu-note"><strong>Bohnen-Upgrade:</strong> Alle Kaffee-Getränke auch mit unserem fruchtig-beerigen Spezialitätenkaffee erhältlich (+0.40)</p>
+              <p class="menu-note"><strong>Decaf:</strong> Alle Kaffeespezialitäten auf Wunsch auch entkoffeiniert (ohne Aufpreis)</p>
+
+              <h3 class="menu-group-title menu-group-title-spaced">Erfrischendes</h3>
+              <ul class="menu-list">
+                <li class="menu-item"><div class="menu-item-head"><span class="menu-item-name">Homemade Bio Limonade</span><span class="menu-item-price">5.00</span></div></li>
+                <li class="menu-item"><div class="menu-item-head"><span class="menu-item-name">Homemade Beeren-Eistee</span><span class="menu-item-price">5.00</span></div></li>
+                <li class="menu-item"><div class="menu-item-head"><span class="menu-item-name">Slush Smoothie</span><span class="menu-item-price">5.50</span></div></li>
+                <li class="menu-item"><div class="menu-item-head"><span class="menu-item-name">Orangensaft / Apfelsaft</span><span class="menu-item-price">3.00</span></div></li>
+                <li class="menu-item"><div class="menu-item-head"><span class="menu-item-name">Wasser</span><span class="menu-item-price">2.50</span></div></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Speisen -->
+      <div class="menu-panel" id="speisen">
+        <div class="menu-card">
+          <div class="menu-columns">
+            <div class="menu-group">
+              <h3 class="menu-group-title">Open Toast <span class="menu-group-subtitle">Sauerteigbrot</span></h3>
+              <ul class="menu-list">
+                <li class="menu-item">
+                  <div class="menu-item-head"><span class="menu-item-name">Avocado-Ei</span><span class="menu-item-price">9.90</span></div>
+                  <p class="menu-item-desc">Avocadocreme, Blattsalat, Ei, Sprossen</p>
+                </li>
+                <li class="menu-item">
+                  <div class="menu-item-head"><span class="menu-item-name">Burrata Bella</span><span class="menu-item-price">11.90</span></div>
+                  <p class="menu-item-desc">Pesto, Burrata, Hähnchenbrust, Tomate, Blattsalat</p>
+                </li>
+                <li class="menu-item">
+                  <div class="menu-item-head"><span class="menu-item-name">Pastırma</span><span class="menu-item-price">10.90</span></div>
+                  <p class="menu-item-desc">Dattel-Curry Creme, Rinderschinken, Blattsalat, Weichkäse, Schnittlauch</p>
+                </li>
+                <li class="menu-item">
+                  <div class="menu-item-head"><span class="menu-item-name">Lachs-Avocado</span><span class="menu-item-price">11.50</span></div>
+                  <p class="menu-item-desc">Dattel-Curry Creme, Räucherlachs, Avocado, Dill, Sprossen, Lauch</p>
+                  <p class="menu-item-note-line">* Nach Wunsch mit cremigem Ei +1.50</p>
+                </li>
+                <li class="menu-item">
+                  <div class="menu-item-head"><span class="menu-item-name">Vegan Garden <span class="menu-tag-vegan">(Vegan)</span></span><span class="menu-item-price">10.50</span></div>
+                  <p class="menu-item-desc">Auberginencreme, Tomate, Zwiebel, Blattsalat, Sprossen, Granatapfelsauce</p>
+                </li>
+                <li class="menu-item">
+                  <div class="menu-item-head"><span class="menu-item-name">Süßer Camembert</span><span class="menu-item-price">9.50</span></div>
+                  <p class="menu-item-desc">Butter, Camembert, Apfel, Preiselbeer-Marmelade, Walnüsse</p>
+                </li>
+              </ul>
+
+              <h3 class="menu-group-title menu-group-title-spaced">Warme Toasts <span class="menu-group-subtitle">Fladenbrot</span></h3>
+              <ul class="menu-list">
+                <li class="menu-item">
+                  <div class="menu-item-head"><span class="menu-item-name">Heißer Weichkäse Fladen</span><span class="menu-item-price">7.50</span></div>
+                  <p class="menu-item-desc">Hausgemachte Kräuterbutter, Weichkäse</p>
+                </li>
+                <li class="menu-item">
+                  <div class="menu-item-head"><span class="menu-item-name">Istanbul Toast</span><span class="menu-item-price">8.90</span></div>
+                  <p class="menu-item-desc">Tomaten-Paprikacreme, Sucuk/Pastırma, Käse, Frische Tomaten</p>
+                </li>
+              </ul>
+            </div>
+            <div class="menu-group">
+              <h3 class="menu-group-title">Brioche <span class="menu-group-subtitle">Egg Drop</span></h3>
+              <ul class="menu-list">
+                <li class="menu-item">
+                  <div class="menu-item-head"><span class="menu-item-name">Fluffiges Brioche Sandwich</span><span class="menu-item-price">8.90</span></div>
+                  <p class="menu-item-desc">Rührei, Avocado, Käse, Dattel-Curry-Mayo</p>
+                  <ul class="menu-addons">
+                    <li><span>+ Rinderschinken (Pastırma)</span><span>2.50</span></li>
+                    <li><span>+ Räucherlachs</span><span>3.00</span></li>
+                    <li><span>+ Hähnchenbrust</span><span>2.00</span></li>
+                  </ul>
+                </li>
+              </ul>
+
+              <h3 class="menu-group-title menu-group-title-spaced">Suppe <span class="menu-badge">glutenfrei</span> <span class="menu-group-subtitle">Hausgemacht</span></h3>
+              <ul class="menu-list">
+                <li class="menu-item">
+                  <div class="menu-item-head"><span class="menu-item-name">Linsensuppe <span class="menu-item-note">(Mercimek)</span> <span class="menu-tag-vegan">(Vegan)</span></span><span class="menu-item-price">7.90</span></div>
+                  <p class="menu-item-desc">Rote Linsen mit feinem Gemüse und orientalischen Gewürzen, serviert mit einer frischen Zitronenspalte</p>
+                </li>
+              </ul>
+
+              <h3 class="menu-group-title menu-group-title-spaced">Frühstücksteller</h3>
+              <ul class="menu-list">
+                <li class="menu-item">
+                  <div class="menu-item-head"><span class="menu-item-name">Klassisches</span><span class="menu-item-price">9.90</span></div>
+                  <p class="menu-item-desc">Ei, Käse, Hähnchenbrust, Marmelade, Butter, Gurken, Tomaten, 1 Brötchen, 1 Croissant</p>
+                </li>
+                <li class="menu-item">
+                  <div class="menu-item-head"><span class="menu-item-name">Glow UP</span><span class="menu-item-price">12.50</span></div>
+                  <p class="menu-item-desc">Rührei, Sauerteigbrot, Avocado, Butter, Chiapudding, Obst</p>
+                </li>
+                <li class="menu-item">
+                  <div class="menu-item-head"><span class="menu-item-name">Türkisches Frühstück</span><span class="menu-item-price">12.90</span></div>
+                  <p class="menu-item-desc">Menemen (geschmorte Tomaten, Zwiebeln, Paprika, Ei) – serviert mit Oliven, Weichkäse, Fladenbrot und Tee</p>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <p class="menu-footnote"><strong>Allergene &amp; Zusatzstoffe:</strong> Eine separate Übersicht liegt für Sie bereit. Bitte sprechen Sie unser Servicepersonal an.</p>
+        </div>
+      </div>
+
+      <!-- Süßes -->
+      <div class="menu-panel" id="suesses">
+        <div class="menu-card">
+          <div class="menu-columns">
+            <div class="menu-group">
+              <h3 class="menu-group-title">Frische Waffeln</h3>
+              <ul class="menu-list">
+                <li class="menu-item">
+                  <div class="menu-item-head"><span class="menu-item-name">Beerentraum</span><span class="menu-item-price">7.50</span></div>
+                  <p class="menu-item-desc">Beeren, Sahne, Erdbeersauce, Puderzucker</p>
+                </li>
+                <li class="menu-item">
+                  <div class="menu-item-head"><span class="menu-item-name">Matcha-Erdbeere</span><span class="menu-item-price">8.50</span></div>
+                  <p class="menu-item-desc">Matchacreme, Erdbeeren, Erdbeersauce, Puderzucker</p>
+                </li>
+                <li class="menu-item">
+                  <div class="menu-item-head"><span class="menu-item-name">Mellifluus Special</span><span class="menu-item-price">9.50</span></div>
+                  <p class="menu-item-desc">Hausgemachte Honigcreme, Honig, Walnüsse, Eis nach Wahl</p>
+                </li>
+                <li class="menu-item">
+                  <div class="menu-item-head"><span class="menu-item-name">Biscoff-Lotus</span><span class="menu-item-price">7.90</span></div>
+                  <p class="menu-item-desc">Lotus Biscoff Sauce, Lotus Kekse, Sahne</p>
+                </li>
+                <li class="menu-item">
+                  <div class="menu-item-head"><span class="menu-item-name">Nutella</span><span class="menu-item-price">7.90</span></div>
+                  <p class="menu-item-desc">Nutella, Banane, Haselnüsse, Sahne</p>
+                </li>
+                <li class="menu-item">
+                  <div class="menu-item-head"><span class="menu-item-name">Blaubeer-Zitronenzeste</span><span class="menu-item-price">8.50</span></div>
+                  <p class="menu-item-desc">Blaubeeren, Vanillesauce, Bio-Zitronenschale</p>
+                </li>
+                <li class="menu-item">
+                  <div class="menu-item-head"><span class="menu-item-name">Kraftpaket <span class="menu-tag-vegan">(Vegan)</span></span><span class="menu-item-price">9.00</span></div>
+                  <p class="menu-item-desc">Erdnussmus, Bananen, Blaubeeren, Hanfsamen, Puderzucker</p>
+                </li>
+              </ul>
+
+              <h3 class="menu-group-title menu-group-title-spaced">Griess-Helva</h3>
+              <ul class="menu-list">
+                <li class="menu-item">
+                  <div class="menu-item-head"><span class="menu-item-name">Tahin-Helva</span><span class="menu-item-price">5.50</span></div>
+                  <p class="menu-item-desc">Helva mit Sesampaste und Kugel Vanilleeis</p>
+                </li>
+                <li class="menu-item">
+                  <div class="menu-item-head"><span class="menu-item-name">Lotus-Helva</span><span class="menu-item-price">6.00</span></div>
+                  <p class="menu-item-desc">Helva mit Lotus Sauce und Kugel Vanilleeis</p>
+                </li>
+              </ul>
+            </div>
+            <div class="menu-group">
+              <h3 class="menu-group-title">Bowls</h3>
+              <ul class="menu-list">
+                <li class="menu-item">
+                  <div class="menu-item-head"><span class="menu-item-name">Joghurt Chia Bowl</span><span class="menu-item-price">10.90</span></div>
+                  <p class="menu-item-desc">Griechischer Joghurt, Chia Pudding, Granola, Marmelade, Blaubeeren, Erdnussmus, Ahornsirup</p>
+                </li>
+                <li class="menu-item">
+                  <div class="menu-item-head"><span class="menu-item-name">Buchweizen Porridge <span class="menu-badge">glutenfrei</span></span><span class="menu-item-price">12.50</span></div>
+                  <p class="menu-item-desc">Karamellisierte Banane, Schokolade, Erdnussmus</p>
+                </li>
+                <li class="menu-item">
+                  <div class="menu-item-head"><span class="menu-item-name">Booster Porridge <span class="menu-tag-vegan">(Vegan)</span></span><span class="menu-item-price">11.90</span></div>
+                  <p class="menu-item-desc">Haferflocken, pflanzliche Milch, Banane, Beeren, Erdnussmus, Walnüsse, Hanfsamen, Ahornsirup</p>
+                </li>
+                <li class="menu-item">
+                  <div class="menu-item-head"><span class="menu-item-name">Turkish Eggs <span class="menu-item-note">(Çılbır)</span></span><span class="menu-item-price">13.90</span></div>
+                  <p class="menu-item-desc">Cremig gekochte Eier, Joghurt, frischer Dill &amp; Minze, warme Chili-Butter, Weichkäse, Sauerteigbrot</p>
+                </li>
+                <li class="menu-item">
+                  <div class="menu-item-head"><span class="menu-item-name">Açaí Protein Bowl <span class="menu-tag-vegan">(Vegan)</span></span><span class="menu-item-price">13.50</span></div>
+                  <p class="menu-item-desc">Açaí-Püree mit Beeren &amp; Banane, Erdnussmus, Hanfsamen, Granola</p>
+                  <p class="menu-item-note-line">100% natürliches Pflanzeneiweiß</p>
+                </li>
+              </ul>
+
+              <h3 class="menu-group-title menu-group-title-spaced">Eis <span class="menu-group-subtitle">Regional</span></h3>
+              <ul class="menu-list">
+                <li class="menu-item">
+                  <div class="menu-item-head"><span class="menu-item-name">Kugel Eis</span><span class="menu-item-price">2.10</span></div>
+                  <p class="menu-item-desc">Verschiedene Eissorten vorne an der Eistheke</p>
+                </li>
+                <li class="menu-item">
+                  <div class="menu-item-head"><span class="menu-item-name">Beeren Becher</span><span class="menu-item-price">8.50</span></div>
+                  <p class="menu-item-desc">3 Kugeln Eis, Beeren, Sahne, Erdbeersauce</p>
+                  <ul class="menu-addons">
+                    <li><span>+ Hanfsamen</span><span>1.50</span></li>
+                    <li><span>+ Zuckerstreusel</span><span>0.80</span></li>
+                    <li><span>+ Schokostreusel</span><span>0.80</span></li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="lage" class="section location-section">
+  <div class="container location-grid">
+    <div class="location-info">
+      <h2 class="section-title">Lage &amp; Öffnungszeiten</h2>
+      <p class="location-address">
+        Mellifluus<br>
+        Kampstraße 7<br>
+        32423 Minden (Altstadt)
+      </p>
+      <table class="hours-table">
+        <tr><td>Montag</td><td>9:00 – 18:00</td></tr>
+        <tr><td>Dienstag</td><td class="closed">Ruhetag</td></tr>
+        <tr><td>Mittwoch</td><td>9:00 – 18:00</td></tr>
+        <tr><td>Donnerstag</td><td>9:00 – 18:00</td></tr>
+        <tr><td>Freitag</td><td>9:00 – 19:00</td></tr>
+        <tr><td>Samstag</td><td>9:00 – 19:00</td></tr>
+        <tr><td>Sonntag</td><td>9:00 – 19:00</td></tr>
+      </table>
+      <a href="https://www.google.com/maps/dir/?api=1&destination=Kampstra%C3%9Fe+7,+32423+Minden" target="_blank" rel="noopener" class="btn btn-outline">Route planen</a>
+    </div>
+    <div class="location-map">
+      <iframe
+        title="Mellifluus auf Google Maps"
+        src="https://www.google.com/maps?q=Kampstra%C3%9Fe+7,+32423+Minden&output=embed"
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade">
+      </iframe>
+    </div>
+  </div>
+</section>
+
+<section id="reservierung" class="section reservation-section">
+  <div class="container">
+    <h2 class="section-title">Tisch reservieren</h2>
+    <p class="section-subtitle">Wir freuen uns auf Ihren Besuch – füllen Sie das Formular aus und wir bestätigen Ihre Reservierung per E-Mail.</p>
+
+    <form id="reservationForm" class="reservation-form" action="https://formsubmit.co/kompvsk8@gmail.com" method="POST">
+      <input type="hidden" name="_subject" value="Neue Tischreservierung – Mellifluus">
+      <input type="hidden" name="_template" value="table">
+      <input type="hidden" name="_captcha" value="false">
+      <input type="hidden" name="_next" value="danke.html">
+      <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input type="text" id="name" name="Name" required>
+        </div>
+        <div class="form-group">
+          <label for="email">E-Mail</label>
+          <input type="email" id="email" name="E-Mail" required>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="phone">Telefon</label>
+          <input type="tel" id="phone" name="Telefon" required>
+        </div>
+        <div class="form-group">
+          <label for="guests">Personen</label>
+          <select id="guests" name="Personen" required>
+            <option value="1">1 Person</option>
+            <option value="2" selected>2 Personen</option>
+            <option value="3">3 Personen</option>
+            <option value="4">4 Personen</option>
+            <option value="5">5 Personen</option>
+            <option value="6+">6+ Personen</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="date">Datum</label>
+          <input type="date" id="date" name="Datum" required>
+        </div>
+        <div class="form-group">
+          <label for="time">Uhrzeit</label>
+          <input type="time" id="time" name="Uhrzeit" required min="09:00" max="19:00">
+        </div>
+      </div>
+
+      <div class="form-group form-group-full">
+        <label for="message">Nachricht (optional)</label>
+        <textarea id="message" name="Nachricht" rows="4" placeholder="Besondere Wünsche, Allergien, Anlass ..."></textarea>
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-block">Reservierung anfragen</button>
+      <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
+      <p class="form-note">Dienstags ist Ruhetag – an diesem Tag sind leider keine Reservierungen möglich.</p>
+    </form>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <div class="footer-brand">
+      <img src="assets/images/logo/mellifluus-logo.jpg" alt="Mellifluus Logo">
+      <span>Mellifluus</span>
+    </div>
+    <p>Kampstraße 7, 32423 Minden (Altstadt)</p>
+    <p>Mo, Mi, Do 9–18 Uhr · Fr–So 9–19 Uhr · Di Ruhetag</p>
+    <p class="footer-copy">&copy; <span id="year"></span> Mellifluus. Alle Rechte vorbehalten.</p>
+  </div>
+</footer>
+
+<script src="js/script.js"></script>
+</body>
+</html>
