@@ -393,8 +393,17 @@
     <form id="reservationForm" class="reservation-form" action="https://formsubmit.co/kompvsk8@gmail.com" method="POST">
       <input type="hidden" name="_subject" value="Neue Tischreservierung – Mellifluus">
       <input type="hidden" name="_template" value="table">
-      <input type="hidden" name="_captcha" value="false">
-      <input type="hidden" name="_next" value="danke.html">
+      <input type="hidden" name="_next" id="nextField" value="danke.html">
+      <input type="hidden" name="_autoresponse" id="autoresponseField" value="Liebe(r) Gast,
+
+vielen Dank für Ihre Reservierungsanfrage bei Mellifluus für {DATUM} um {UHRZEIT} Uhr! Wir freuen uns sehr, Sie in unserem Café in der Kampstraße 7 in Minden begrüßen zu dürfen.
+
+Unser Team prüft Ihre Anfrage und meldet sich in Kürze bei Ihnen, um Ihren Tisch verbindlich zu bestätigen.
+
+Bis bald bei einer guten Tasse Kaffee!
+
+Herzliche Grüße
+Ihr Mellifluus-Team">
       <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
 
       <div class="form-row">
@@ -443,7 +452,6 @@
       </div>
 
       <button type="submit" class="btn btn-primary btn-block">Reservierung anfragen</button>
-      <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
       <p class="form-note">Dienstags ist Ruhetag – an diesem Tag sind leider keine Reservierungen möglich.</p>
     </form>
   </div>

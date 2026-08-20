@@ -49,9 +49,22 @@ confirmation email to that inbox — you must click the confirmation link there 
 further submissions get delivered. Test it once after deploying.
 
 Notes:
-- `_captcha=false` skips FormSubmit's captcha redirect for a smoother UX; a hidden
-  honeypot field (`_honey`) is used instead to catch basic spam bots.
-- Successful submissions redirect to `danke.html`.
+- The form is a plain HTML POST (not AJAX) and FormSubmit's reCAPTCHA is left
+  enabled — both are required for `_autoresponse` (below) to actually fire;
+  FormSubmit silently skips the autoresponse on AJAX submissions and on forms
+  with `_captcha=false`. A hidden honeypot field (`_honey`) still helps catch
+  basic spam bots.
+- Successful submissions redirect to `danke.html`. `_next` is set to a relative
+  path in the markup, but `js/script.js` rewrites it to an absolute URL on page
+  load, since the redirect is issued by formsubmit.co (a different origin) and
+  a relative path there wouldn't resolve back to this site.
+- `_autoresponse` sends a German thank-you message straight to the guest's own
+  address (whatever they typed in the `E-Mail` field) right after they submit —
+  no backend involved, FormSubmit handles it. Edit its `value` in `index.html` to
+  change the wording. It contains `{DATUM}` and `{UHRZEIT}` placeholders that
+  `js/script.js` fills in from the reservation's date/time fields right before
+  submit — keep both placeholders if you edit the message. Note: on FormSubmit's
+  free plan the autoresponse email's subject line is fixed and not customizable.
 - If you ever want to switch the recipient address, just change the email in the
   form's `action` attribute in `index.html`.
 

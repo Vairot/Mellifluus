@@ -54,42 +54,32 @@ document.addEventListener('DOMContentLoaded', () => {
   // Footer year
   document.getElementById('year').textContent = new Date().getFullYear();
 
-  // Submit the reservation via FormSubmit's AJAX endpoint instead of a plain
-  // HTML form POST. The plain POST relies on FormSubmit's server issuing an
-  // HTTP redirect to _next, which some local dev servers (e.g. WebStorm's
-  // built-in server) don't follow correctly. Submitting via fetch and doing
-  // the redirect to danke.html ourselves keeps that navigation same-origin,
-  // so it works the same everywhere.
+  // Plain HTML form POST to FormSubmit (not AJAX): FormSubmit's autoresponse
+  // email to the guest only fires on a standard POST with reCAPTCHA enabled —
+  // it's documented to silently not send on AJAX submissions or with
+  // _captcha=false. _next needs an absolute URL since the redirect back to
+  // danke.html is issued by formsubmit.co, a different origin.
   const reservationForm = document.getElementById('reservationForm');
-  const formStatus = document.getElementById('formStatus');
-  if (reservationForm) {
-    reservationForm.addEventListener('submit', (event) => {
-      event.preventDefault();
-      if (!reservationForm.checkValidity()) {
-        reservationForm.reportValidity();
-        return;
-      }
+  const nextField = document.getElementById('nextField');
+  const autoresponseField = document.getElementById('autoresponseField');
+  const dateFieldEl = document.getElementById('date');
+  const timeFieldEl = document.getElementById('time');
 
-      const submitButton = reservationForm.querySelector('button[type="submit"]');
-      submitButton.disabled = true;
-      formStatus.textContent = 'Wird gesendet ...';
+  if (nextField) {
+    nextField.value = new URL('danke.html', window.location.href).href;
+  }
 
-      const payload = {};
-      new FormData(reservationForm).forEach((value, key) => { payload[key] = value; });
+  if (reservationForm && autoresponseField) {
+    reservationForm.addEventListener('submit', () => {
+      const formattedDate = dateFieldEl && dateFieldEl.value
+        ? new Intl.DateTimeFormat('de-DE', { weekday: 'long', day: '2-digit', month: '2-digit', year: 'numeric' })
+            .format(new Date(`${dateFieldEl.value}T00:00:00`))
+        : dateFieldEl.value;
+      const formattedTime = timeFieldEl ? timeFieldEl.value : '';
 
-      fetch(`https://formsubmit.co/ajax/${encodeURIComponent(reservationForm.action.split('/').pop())}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        body: JSON.stringify(payload)
-      })
-        .then(response => {
-          if (!response.ok) throw new Error('Request failed');
-          window.location.href = new URL('danke.html', window.location.href).href;
-        })
-        .catch(() => {
-          submitButton.disabled = false;
-          formStatus.textContent = 'Senden fehlgeschlagen. Bitte versuchen Sie es erneut oder rufen Sie uns an.';
-        });
+      autoresponseField.value = autoresponseField.value
+        .replace('{DATUM}', formattedDate)
+        .replace('{UHRZEIT}', formattedTime);
     });
   }
 
