@@ -39,23 +39,17 @@ First, install dependencies:
 npm install
 ```
 
-Then build the JavaScript bundle (includes Vercel Speed Insights):
-
-```bash
-npm run build
-```
-
-This will bundle `js/script-source.js` (with Speed Insights) into `js/script.js`.
-
 ### Development
 
-After building, serve the folder:
-
 ```bash
-python3 -m http.server 8000
+npm run dev
 ```
 
-Then open `http://localhost:8000`.
+This bundles `js/script-source.js` (with Speed Insights) into `js/script.js` via
+`npm run build`, then serves the folder on `http://localhost:3000`.
+
+To just rebuild the bundle without serving (e.g. before committing), run
+`npm run build` on its own.
 
 **Note:** If you modify `js/script-source.js`, run `npm run build` again to rebuild the bundle.
 
