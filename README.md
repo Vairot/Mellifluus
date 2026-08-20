@@ -73,12 +73,17 @@ Notes:
   load, since the redirect is issued by formsubmit.co (a different origin) and
   a relative path there wouldn't resolve back to this site.
 - `_autoresponse` sends a German thank-you message straight to the guest's own
-  address (whatever they typed in the `E-Mail` field) right after they submit —
+  address (whatever they typed in the E-Mail field) right after they submit —
   no backend involved, FormSubmit handles it. Edit its `value` in `index.html` to
   change the wording. It contains `{DATUM}` and `{UHRZEIT}` placeholders that
   `js/script.js` fills in from the reservation's date/time fields right before
   submit — keep both placeholders if you edit the message. Note: on FormSubmit's
   free plan the autoresponse email's subject line is fixed and not customizable.
+  **Important:** the email input's `name` attribute must stay exactly `email`
+  (lowercase) — that's undocumented but required for FormSubmit to detect it as
+  the autoresponse target; it silently sends nothing if the field is named
+  anything else (e.g. the original `E-Mail`). The visible `<label>` text can
+  still say whatever you want.
 - If you ever want to switch the recipient address, just change the email in the
   form's `action` attribute in `index.html`.
 
