@@ -63,27 +63,22 @@ confirmation email to that inbox — you must click the confirmation link there 
 further submissions get delivered. Test it once after deploying.
 
 Notes:
-- The form is a plain HTML POST (not AJAX) and FormSubmit's reCAPTCHA is left
-  enabled — both are required for `_autoresponse` (below) to actually fire;
-  FormSubmit silently skips the autoresponse on AJAX submissions and on forms
-  with `_captcha=false`. A hidden honeypot field (`_honey`) still helps catch
-  basic spam bots.
-- Successful submissions redirect to `danke.html`. `_next` is set to a relative
-  path in the markup, but `js/script.js` rewrites it to an absolute URL on page
-  load, since the redirect is issued by formsubmit.co (a different origin) and
-  a relative path there wouldn't resolve back to this site.
-- `_autoresponse` sends a German thank-you message straight to the guest's own
-  address (whatever they typed in the E-Mail field) right after they submit —
-  no backend involved, FormSubmit handles it. Edit its `value` in `index.html` to
-  change the wording. It contains `{DATUM}` and `{UHRZEIT}` placeholders that
-  `js/script.js` fills in from the reservation's date/time fields right before
-  submit — keep both placeholders if you edit the message. Note: on FormSubmit's
-  free plan the autoresponse email's subject line is fixed and not customizable.
-  **Important:** the email input's `name` attribute must stay exactly `email`
-  (lowercase) — that's undocumented but required for FormSubmit to detect it as
-  the autoresponse target; it silently sends nothing if the field is named
-  anything else (e.g. the original `E-Mail`). The visible `<label>` text can
-  still say whatever you want.
+- The form submits via FormSubmit's AJAX endpoint (`js/script.js`) instead of a
+  plain HTML POST, and redirects to `danke.html` itself on success. A plain POST
+  relies on FormSubmit's server issuing an HTTP redirect to `_next`, which some
+  local dev servers (e.g. WebStorm's built-in server) don't follow correctly —
+  submitting via `fetch` and doing the redirect ourselves works the same
+  everywhere.
+- `_captcha=false` skips FormSubmit's captcha redirect for a smoother UX; a
+  hidden honeypot field (`_honey`) is used instead to catch basic spam bots.
+- The guest only sees the on-page `danke.html` thank-you — there's no follow-up
+  confirmation email to them. FormSubmit's `_autoresponse` feature could send
+  one, but its free tier only supports a plain-text message (confirmed by
+  testing: no logo, no styling, just line-broken text), and it also requires
+  disabling both the AJAX submission and `_captcha=false` above, which brings
+  back FormSubmit's captcha-click UX cost for every guest. Given the
+  autoresponse can't currently be made to look intentional, it's left out
+  entirely rather than shipped half-finished.
 - If you ever want to switch the recipient address, just change the email in the
   form's `action` attribute in `index.html`.
 
