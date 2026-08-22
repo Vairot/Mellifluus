@@ -8,6 +8,8 @@ Static one-page business-card website for Mellifluus (Specialty Coffee, 100% Hal
 Mellifluus/
 ├── index.html              Main page (hero, menu, map, hours, reservation form)
 ├── danke.html               Thank-you page shown after a reservation is submitted
+├── datenschutz.html         Privacy policy (Datenschutzerklärung)
+├── impressum.html           Legal notice (Impressum, § 5 DDG)
 ├── css/
 │   └── style.css            All site styling
 ├── js/
@@ -86,11 +88,13 @@ Notes:
 
 ### Web Analytics
 
-Both `index.html` and `danke.html` include Vercel's vanilla-JS Web Analytics snippet
-(no npm install — there's no build step here, so the `@vercel/analytics` package/its
-`/next` import don't apply). It's inert on any other host; it only reports data once
-the site is deployed on Vercel with **Web Analytics** enabled for the project in the
-Vercel dashboard.
+`js/script-source.js` injects Vercel's vanilla-JS Web Analytics snippet
+(`/_vercel/insights/script.js`) at runtime — not the `@vercel/analytics` package/its
+`/next` import, since there's no framework build here beyond the esbuild bundling step.
+It's only injected after a visitor accepts "Alle akzeptieren" in the cookie banner (see
+"Cookie consent & legal pages" below), and it's inert on any host other than Vercel; it
+only reports data once the site is deployed there with **Web Analytics** enabled for the
+project in the Vercel dashboard.
 
 ### Speed Insights
 
@@ -103,6 +107,30 @@ metrics (Core Web Vitals) and requires:
 
 Speed Insights will only collect data when deployed on Vercel with the feature enabled. It remains
 inactive during local development and on other hosting platforms.
+
+## Cookie consent & legal pages
+
+`datenschutz.html` (privacy policy) and `impressum.html` (legal notice) are linked from every
+page's footer, alongside a "Cookie-Einstellungen" button. The consent logic lives in
+`js/script-source.js`:
+
+- On first visit, a banner (bottom of the page) asks visitors to accept all or essential-only.
+  The choice is stored in `localStorage` under `mellifluus-consent` (`"all"` or `"essential"`)
+  so they aren't asked again, and can be changed anytime via the footer's "Cookie-Einstellungen".
+- Only if a visitor accepts "Alle akzeptieren" are the Google Maps embed and Vercel Web
+  Analytics/Speed Insights actually loaded. Otherwise the map stays a click-to-load placeholder
+  (clicking it loads the map for that visit only, independent of the general banner choice) and
+  the two Vercel scripts are never injected.
+- Google Fonts are **not** gated (loaded on every page load regardless of consent) — self-hosting
+  them would be the way to close that gap fully; see `datenschutz.html` §7 for how it's disclosed.
+
+**Before going live, edit the placeholders:**
+- The controller name/address/email in `datenschutz.html` and `impressum.html` (currently
+  "Mellifluus", Kampstraße 7, 32423 Minden, `info@mellifluus.de`) — confirm that inbox actually
+  exists and is monitored.
+- The `<!-- TODO (Betreiber): ... -->` comment near the top of `impressum.html`: if Mellifluus
+  operates as a sole proprietorship, German law (§ 5 DDG) expects the owner's full name too, and
+  a VAT ID/Handelsregister number should be added if you have one.
 
 ## Things to double check before going live
 

@@ -1,8 +1,79 @@
-// Import and initialize Vercel Speed Insights
 import { injectSpeedInsights } from '@vercel/speed-insights';
 
-// Initialize Speed Insights
-injectSpeedInsights();
+// Cookie consent: Google Maps and Vercel Analytics/Speed Insights are only
+// loaded once the visitor accepts them via the cookie banner (or clicks the
+// map's own "load" placeholder) — see datenschutz.html for what each does.
+const CONSENT_KEY = 'mellifluus-consent';
+const MAPS_EMBED_SRC = 'https://www.google.com/maps?q=Kampstra%C3%9Fe+7,+32423+Minden&output=embed';
+
+const getConsent = () => {
+  try { return localStorage.getItem(CONSENT_KEY); } catch { return null; }
+};
+
+const setConsent = (value) => {
+  try { localStorage.setItem(CONSENT_KEY, value); } catch {}
+};
+
+let analyticsLoaded = false;
+const loadAnalytics = () => {
+  if (analyticsLoaded) return;
+  analyticsLoaded = true;
+
+  window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+  const script = document.createElement('script');
+  script.defer = true;
+  script.src = '/_vercel/insights/script.js';
+  document.head.appendChild(script);
+
+  injectSpeedInsights();
+};
+
+const loadMapEmbed = (container) => {
+  if (!container || container.dataset.loaded === 'true') return;
+  container.dataset.loaded = 'true';
+  const iframe = document.createElement('iframe');
+  iframe.title = 'Mellifluus auf Google Maps';
+  iframe.loading = 'lazy';
+  iframe.referrerPolicy = 'no-referrer-when-downgrade';
+  iframe.src = MAPS_EMBED_SRC;
+  container.replaceChildren(iframe);
+};
+
+const applyConsent = (value) => {
+  if (value !== 'all') return;
+  loadAnalytics();
+  loadMapEmbed(document.getElementById('locationMap'));
+};
+
+const showConsentBanner = () => {
+  if (document.getElementById('cookieBanner')) return;
+
+  const banner = document.createElement('div');
+  banner.className = 'cookie-banner';
+  banner.id = 'cookieBanner';
+  banner.setAttribute('role', 'dialog');
+  banner.setAttribute('aria-label', 'Cookie-Einstellungen');
+  banner.innerHTML = `
+    <div class="cookie-banner-inner">
+      <p>Wir verwenden technisch notwendige Funktionen sowie – nur mit Ihrer Zustimmung – Google Maps und ein datenschutzfreundliches Analyse-Tool. Details in unserer <a href="datenschutz.html">Datenschutzerklärung</a>.</p>
+      <div class="cookie-banner-buttons">
+        <button type="button" class="btn btn-outline" id="cookieRejectBtn">Nur essenzielle</button>
+        <button type="button" class="btn btn-primary" id="cookieAcceptBtn">Alle akzeptieren</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(banner);
+
+  document.getElementById('cookieAcceptBtn').addEventListener('click', () => {
+    setConsent('all');
+    applyConsent('all');
+    banner.remove();
+  });
+  document.getElementById('cookieRejectBtn').addEventListener('click', () => {
+    setConsent('essential');
+    banner.remove();
+  });
+};
 
 document.addEventListener('DOMContentLoaded', () => {
   // Mobile nav toggle (not present on danke.html)
@@ -63,6 +134,32 @@ document.addEventListener('DOMContentLoaded', () => {
   const yearEl = document.getElementById('year');
   if (yearEl) {
     yearEl.textContent = new Date().getFullYear();
+  }
+
+  // Cookie consent: apply a stored choice, otherwise ask
+  const existingConsent = getConsent();
+  if (existingConsent === 'all') {
+    applyConsent('all');
+  } else if (existingConsent !== 'essential') {
+    showConsentBanner();
+  }
+
+  // Google Maps placeholder (index.html only): load on demand regardless of
+  // the general banner choice — clicking it is its own specific consent.
+  const loadMapBtn = document.getElementById('loadMapBtn');
+  if (loadMapBtn) {
+    loadMapBtn.addEventListener('click', () => {
+      loadMapEmbed(document.getElementById('locationMap'));
+    });
+  }
+
+  // Footer link to reopen the cookie banner and change consent later
+  const cookieSettingsBtn = document.getElementById('cookieSettingsBtn');
+  if (cookieSettingsBtn) {
+    cookieSettingsBtn.addEventListener('click', () => {
+      document.getElementById('cookieBanner')?.remove();
+      showConsentBanner();
+    });
   }
 
   // Submit the reservation via FormSubmit's AJAX endpoint instead of a plain
