@@ -170,9 +170,67 @@ document.addEventListener('DOMContentLoaded', () => {
   // so it works the same everywhere.
   const reservationForm = document.getElementById('reservationForm');
   const formStatus = document.getElementById('formStatus');
+
+  // Reservation date & time: block Tuesdays, past dates, and same-day times
+  // less than one hour from now (the kitchen needs at least that much notice).
+  const dateInput = document.getElementById('date');
+  const timeInput = document.getElementById('time');
+  const pad = (n) => String(n).padStart(2, '0');
+  const todayStr = () => {
+    const d = new Date();
+    return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+  };
+  const minTimeForDate = (dateStr) => {
+    if (dateStr !== todayStr()) return '09:00';
+    const min = new Date(Date.now() + 60 * 60 * 1000);
+    const hhmm = `${pad(min.getHours())}:${pad(min.getMinutes())}`;
+    return hhmm > '09:00' ? hhmm : '09:00';
+  };
+  const validateDate = () => {
+    if (!dateInput || !dateInput.value) return;
+    const day = new Date(dateInput.value + 'T00:00:00').getDay();
+    if (day === 2) {
+      dateInput.setCustomValidity('Dienstags ist Ruhetag. Bitte wählen Sie einen anderen Tag.');
+    } else {
+      dateInput.setCustomValidity('');
+    }
+  };
+  const validateTime = () => {
+    if (!dateInput || !timeInput) return;
+    const minTime = minTimeForDate(dateInput.value);
+    timeInput.setAttribute('min', minTime);
+    if (!timeInput.value) { timeInput.setCustomValidity(''); return; }
+    if (timeInput.value < minTime) {
+      timeInput.setCustomValidity(dateInput.value === todayStr()
+        ? 'Bitte wählen Sie eine Uhrzeit mindestens eine Stunde im Voraus.'
+        : 'Bitte wählen Sie eine Uhrzeit ab 09:00 Uhr.');
+    } else if (timeInput.value > '19:00') {
+      timeInput.setCustomValidity('Bitte wählen Sie eine Uhrzeit bis 19:00 Uhr.');
+    } else {
+      timeInput.setCustomValidity('');
+    }
+  };
+
+  if (dateInput) {
+    dateInput.setAttribute('min', todayStr());
+    dateInput.addEventListener('input', () => {
+      validateDate();
+      validateTime();
+      dateInput.reportValidity();
+    });
+  }
+  if (timeInput) {
+    timeInput.addEventListener('input', () => {
+      validateTime();
+      timeInput.reportValidity();
+    });
+  }
+
   if (reservationForm) {
     reservationForm.addEventListener('submit', (event) => {
       event.preventDefault();
+      validateDate();
+      validateTime();
       if (!reservationForm.checkValidity()) {
         reservationForm.reportValidity();
         return;
@@ -198,23 +256,6 @@ document.addEventListener('DOMContentLoaded', () => {
           submitButton.disabled = false;
           formStatus.textContent = 'Senden fehlgeschlagen. Bitte versuchen Sie es erneut oder rufen Sie uns an.';
         });
-    });
-  }
-
-  // Reservation date: block Tuesdays, don't allow past dates
-  const dateInput = document.getElementById('date');
-  if (dateInput) {
-    const today = new Date().toISOString().split('T')[0];
-    dateInput.setAttribute('min', today);
-
-    dateInput.addEventListener('input', () => {
-      const day = new Date(dateInput.value + 'T00:00:00').getDay();
-      if (day === 2) {
-        dateInput.setCustomValidity('Dienstags ist Ruhetag. Bitte wählen Sie einen anderen Tag.');
-      } else {
-        dateInput.setCustomValidity('');
-      }
-      dateInput.reportValidity();
     });
   }
 });
