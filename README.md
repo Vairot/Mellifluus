@@ -58,7 +58,7 @@ To just rebuild the bundle without serving (e.g. before committing), run
 ## Reservation form
 
 The form on the Reservierung section posts to [FormSubmit](https://formsubmit.co) which forwards
-submissions straight to **kompvsk8@gmail.com** — no backend/server needed.
+submissions straight to **info@mellifluus.de** — no backend/server needed.
 
 **One-time activation:** the very first time the form is submitted, FormSubmit sends a
 confirmation email to that inbox — you must click the confirmation link there before
