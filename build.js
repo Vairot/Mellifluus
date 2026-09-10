@@ -1,6 +1,7 @@
 import {build} from 'esbuild';
 import {mkdir, rm, writeFile} from 'node:fs/promises';
 import {existsSync} from 'node:fs';
+import {dirname} from 'node:path';
 
 // --- 1. Bundle the site script (with Speed Insights) --------------------------
 await build({
@@ -53,6 +54,10 @@ async function downloadPoster(sanityUrl) {
 }
 
 async function buildMonatsspecial() {
+  // data/ and assets/images/specials/ are gitignored build output — they may
+  // not exist on a fresh checkout (e.g. a Vercel deploy), so create them.
+  await mkdir(dirname(DATA_FILE), {recursive: true});
+
   let specials;
   try {
     specials = await fetchSpecials();
