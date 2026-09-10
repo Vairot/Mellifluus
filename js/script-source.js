@@ -110,18 +110,36 @@ const initMonatsspecial = () => {
 
       if (specials.length === 0) { keepHidden(); return; }
 
+      const captionFor = (s) => {
+        const fmt = (iso) => {
+          const [y, m, d] = String(iso).split('-');
+          return d && m && y ? `${d}.${m}.${y}` : '';
+        };
+        if (s.end && fmt(s.end)) return `Nur bis ${fmt(s.end)}`;
+        if (s.start && fmt(s.start)) return `Ab ${fmt(s.start)}`;
+        return '';
+      };
+
       track.replaceChildren(...specials.map((s, i) => {
         const li = document.createElement('li');
         li.className = 'special-card';
         li.setAttribute('role', 'group');
         li.setAttribute('aria-roledescription', 'Monatsspecial');
         li.setAttribute('aria-label', `${i + 1} von ${specials.length}`);
+
         const img = document.createElement('img');
+        img.className = 'special-card-photo';
         img.src = s.poster;
         img.alt = s.alt || 'Monatsspecial';
         img.loading = i === 0 ? 'eager' : 'lazy';
         img.decoding = 'async';
         li.appendChild(img);
+
+        const caption = document.createElement('p');
+        caption.className = 'special-card-caption';
+        caption.textContent = captionFor(s);
+        li.appendChild(caption);
+
         return li;
       }));
 
