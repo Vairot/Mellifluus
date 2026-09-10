@@ -75,7 +75,162 @@ const showConsentBanner = () => {
   });
 };
 
+// --- Monatsspecial carousel ------------------------------------------------
+// Behaviour knobs live here; layout knobs (card width, poster ratio, gap) live
+// in css/style.css under ".special-carousel". autoplayMinCount: autoplay only
+// kicks in from this many posters up — with fewer, they just sit centred.
+const MONATSSPECIAL_CONFIG = {
+  dataUrl: 'data/monatsspecial.json',
+  autoplayMs: 5000,
+  autoplayMinCount: 3,
+  resumeAfterInteractionMs: 9000,
+};
+
+const initMonatsspecial = () => {
+  const section = document.getElementById('monatsspecial');
+  if (!section) return;
+
+  const track = section.querySelector('.special-track');
+  const prevBtn = section.querySelector('.special-arrow-prev');
+  const nextBtn = section.querySelector('.special-arrow-next');
+  const dotsWrap = section.querySelector('.special-dots');
+  const navLink = document.querySelector('.main-nav a[href="#monatsspecial"]');
+  const keepHidden = () => { section.hidden = true; if (navLink) navLink.hidden = true; };
+
+  fetch(MONATSSPECIAL_CONFIG.dataUrl, { cache: 'no-cache' })
+    .then(res => (res.ok ? res.json() : Promise.reject(new Error('no data'))))
+    .then(data => {
+      const today = new Date().toISOString().slice(0, 10);
+      const specials = (data && Array.isArray(data.specials) ? data.specials : []).filter(s => {
+        if (!s || !s.poster) return false;
+        if (s.start && s.start > today) return false; // not started yet
+        if (s.end && s.end < today) return false;     // already expired
+        return true;
+      });
+
+      if (specials.length === 0) { keepHidden(); return; }
+
+      track.replaceChildren(...specials.map((s, i) => {
+        const li = document.createElement('li');
+        li.className = 'special-card';
+        li.setAttribute('role', 'group');
+        li.setAttribute('aria-roledescription', 'Monatsspecial');
+        li.setAttribute('aria-label', `${i + 1} von ${specials.length}`);
+        const img = document.createElement('img');
+        img.src = s.poster;
+        img.alt = s.alt || 'Monatsspecial';
+        img.loading = i === 0 ? 'eager' : 'lazy';
+        img.decoding = 'async';
+        li.appendChild(img);
+        return li;
+      }));
+
+      section.hidden = false;
+      if (navLink) navLink.hidden = false;
+
+      const cards = Array.from(track.children);
+      if (cards.length < MONATSSPECIAL_CONFIG.autoplayMinCount) return; // 1–2 posters: static
+
+      // ---- carousel mode (3+ posters) ----
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      track.classList.add('is-carousel');
+      prevBtn.hidden = false;
+      nextBtn.hidden = false;
+      dotsWrap.hidden = false;
+
+      let index = 0;
+      const paint = () => dots.forEach((d, i) => {
+        d.classList.toggle('is-active', i === index);
+        if (i === index) d.setAttribute('aria-current', 'true');
+        else d.removeAttribute('aria-current');
+      });
+      const goTo = (i) => {
+        index = (i + cards.length) % cards.length;
+        const card = cards[index];
+        const delta = card.getBoundingClientRect().left - track.getBoundingClientRect().left;
+        const target = track.scrollLeft + delta - (track.clientWidth - card.offsetWidth) / 2;
+        track.scrollTo({ left: target, behavior: reduceMotion ? 'auto' : 'smooth' });
+        paint();
+      };
+
+      const dots = cards.map((_, i) => {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'special-dot';
+        b.setAttribute('aria-label', `Special ${i + 1} anzeigen`);
+        b.addEventListener('click', () => { goTo(i); nudge(); });
+        dotsWrap.appendChild(b);
+        return b;
+      });
+
+      prevBtn.addEventListener('click', () => { goTo(index - 1); nudge(); });
+      nextBtn.addEventListener('click', () => { goTo(index + 1); nudge(); });
+
+      // Keep the active dot in sync when the visitor scrolls / swipes by hand
+      let raf = 0;
+      track.addEventListener('scroll', () => {
+        cancelAnimationFrame(raf);
+        raf = requestAnimationFrame(() => {
+          const mid = track.getBoundingClientRect().left + track.clientWidth / 2;
+          let nearest = 0;
+          let best = Infinity;
+          cards.forEach((c, i) => {
+            const r = c.getBoundingClientRect();
+            const dist = Math.abs(r.left + r.width / 2 - mid);
+            if (dist < best) { best = dist; nearest = i; }
+          });
+          if (nearest !== index) { index = nearest; paint(); }
+        });
+      }, { passive: true });
+
+      // Drag-to-scroll for mouse users (touch scrolls natively)
+      let dragging = false;
+      let dragStartX = 0;
+      let dragStartScroll = 0;
+      track.addEventListener('pointerdown', (e) => {
+        if (e.pointerType === 'touch') return;
+        dragging = true;
+        dragStartX = e.clientX;
+        dragStartScroll = track.scrollLeft;
+        track.setPointerCapture(e.pointerId);
+      });
+      track.addEventListener('pointermove', (e) => {
+        if (dragging) track.scrollLeft = dragStartScroll - (e.clientX - dragStartX);
+      });
+      const endDrag = () => { if (dragging) { dragging = false; nudge(); } };
+      track.addEventListener('pointerup', endDrag);
+      track.addEventListener('pointercancel', endDrag);
+
+      // ---- autoplay ----
+      let timer = 0;
+      let resumeTimer = 0;
+      const play = () => {
+        if (reduceMotion || timer) return;
+        timer = window.setInterval(() => goTo(index + 1), MONATSSPECIAL_CONFIG.autoplayMs);
+      };
+      const stop = () => { window.clearInterval(timer); timer = 0; };
+      const nudge = () => {
+        stop();
+        window.clearTimeout(resumeTimer);
+        resumeTimer = window.setTimeout(play, MONATSSPECIAL_CONFIG.resumeAfterInteractionMs);
+      };
+
+      section.addEventListener('mouseenter', stop);
+      section.addEventListener('mouseleave', play);
+      section.addEventListener('focusin', stop);
+      section.addEventListener('focusout', play);
+      track.addEventListener('touchstart', nudge, { passive: true });
+      document.addEventListener('visibilitychange', () => { if (document.hidden) stop(); else play(); });
+
+      paint();
+      play();
+    })
+    .catch(keepHidden);
+};
+
 document.addEventListener('DOMContentLoaded', () => {
+  initMonatsspecial();
+
   // Mobile nav toggle (not present on danke.html)
   const navToggle = document.getElementById('navToggle');
   const mainNav = document.getElementById('mainNav');

@@ -1,0 +1,4 @@
+# The Sanity Studio is deployed separately (npm run deploy -> *.sanity.studio),
+# not part of the website build on Vercel.
+studio/
+materiarls/
