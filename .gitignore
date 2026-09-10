@@ -7,3 +7,7 @@ node_modules/
 # Sanity Studio build output / local state
 studio/dist/
 studio/.sanity/
+
+# Monatsspecial: generated at build time from Sanity
+/data/monatsspecial.json
+/assets/images/specials/
