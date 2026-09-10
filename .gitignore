@@ -3,3 +3,7 @@
 .idea/
 materiarls/
 node_modules/
+
+# Sanity Studio build output / local state
+studio/dist/
+studio/.sanity/
