@@ -766,16 +766,21 @@ h1, h2, h3 { font-family: var(--font-heading); font-weight: 700; margin: 0; }
 .footer-social {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
+  gap: 8px;
   margin-bottom: 18px;
-  border: 1px solid rgba(239, 231, 214, 0.35);
-  border-radius: 50%;
-  color: var(--cream-dark);
-  transition: color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+  padding: 9px 18px;
+  border: 1px solid var(--gold);
+  border-radius: 999px;
+  color: var(--gold-light);
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  text-decoration: none;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
 }
-.footer-social:hover { color: var(--gold-light); border-color: var(--gold); transform: translateY(-2px); }
+.footer-social svg { flex-shrink: 0; }
+.footer-social:hover { background: var(--gold); color: var(--green-dark); transform: translateY(-2px); }
 .site-footer p { margin: 4px 0; font-size: 13px; }
 .footer-copy { margin-top: 20px; opacity: 0.6; font-size: 12px; }
 
