@@ -345,7 +345,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const formStatus = document.getElementById('formStatus');
 
   // Reservation date & time: block Tuesdays, past dates, and same-day times
-  // less than one hour from now (the kitchen needs at least that much notice).
+  // less than two hours from now (the kitchen needs at least that much notice).
   const dateInput = document.getElementById('date');
   const timeInput = document.getElementById('time');
   const pad = (n) => String(n).padStart(2, '0');
@@ -355,7 +355,7 @@ document.addEventListener('DOMContentLoaded', () => {
   };
   const minTimeForDate = (dateStr) => {
     if (dateStr !== todayStr()) return '09:00';
-    const min = new Date(Date.now() + 60 * 60 * 1000);
+    const min = new Date(Date.now() + 2 * 60 * 60 * 1000);
     const hhmm = `${pad(min.getHours())}:${pad(min.getMinutes())}`;
     return hhmm > '09:00' ? hhmm : '09:00';
   };
@@ -375,7 +375,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!timeInput.value) { timeInput.setCustomValidity(''); return; }
     if (timeInput.value < minTime) {
       timeInput.setCustomValidity(dateInput.value === todayStr()
-        ? 'Bitte wählen Sie eine Uhrzeit mindestens eine Stunde im Voraus.'
+        ? 'Bitte wählen Sie eine Uhrzeit mindestens zwei Stunden im Voraus.'
         : 'Bitte wählen Sie eine Uhrzeit ab 09:00 Uhr.');
     } else if (timeInput.value > '19:00') {
       timeInput.setCustomValidity('Bitte wählen Sie eine Uhrzeit bis 19:00 Uhr.');
