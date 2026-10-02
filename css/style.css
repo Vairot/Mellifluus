@@ -818,6 +818,9 @@ h1, h2, h3 { font-family: var(--font-heading); font-weight: 700; margin: 0; }
 .footer-social:hover { background: var(--gold); color: var(--green-dark); transform: translateY(-2px); }
 .site-footer p { margin: 4px 0; font-size: 13px; }
 .footer-copy { margin-top: 20px; opacity: 0.6; font-size: 12px; }
+.site-footer .footer-credit { margin-top: 2px; opacity: 0.5; font-size: 11px; }
+.footer-credit a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
+.footer-credit a:hover { color: var(--gold-light); }
 
 /* Footer legal links */
 .footer-links {
