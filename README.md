@@ -25,8 +25,8 @@ Mellifluus/
 ```
 
 The menu (`#speisekarte` in `index.html`) is hand-coded HTML/CSS styled to match the
-original photographed menu cards (cream card, thin gold/green corner accents,
-underlined item names, right-aligned prices) — it's no longer built from the
+original photographed menu cards (cream card with a double hairline frame,
+gold/green wave corners, dotted price leaders between item names and prices) — it's no longer built from the
 `assets/images/menu/*.jpg` photos, so prices/items can be edited directly in the
 markup with no risk of stale or blurry scans. Those source photos still live under
 `materiarls/images/Menu/` for reference if you ever need to re-check an item.
