@@ -448,12 +448,11 @@
         </div>
       </div>
 
-      <form id="reservationForm" class="reservation-form" action="https://formsubmit.co/info@mellifluus.de" method="POST">
-        <input type="hidden" name="_subject" value="Neue Tischreservierung – Mellifluus">
-        <input type="hidden" name="_template" value="table">
-        <input type="hidden" name="_captcha" value="false">
-        <input type="hidden" name="_next" value="danke.html">
-        <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
+      <form id="reservationForm" class="reservation-form" action="https://api.web3forms.com/submit" method="POST" data-mailto="info@mellifluus.de">
+        <input type="hidden" name="access_key" value="cb385258-b735-4bdb-b473-b34cf2e32bec">
+        <input type="hidden" name="subject" value="Neue Tischreservierung – Mellifluus">
+        <input type="hidden" name="from_name" value="Mellifluus Website">
+        <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off">
 
         <label class="field">Name
           <input type="text" id="name" name="Name" autocomplete="name" required>

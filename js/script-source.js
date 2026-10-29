@@ -416,12 +416,10 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Submit the reservation via FormSubmit's AJAX endpoint instead of a plain
-  // HTML form POST. The plain POST relies on FormSubmit's server issuing an
-  // HTTP redirect to _next, which some local dev servers (e.g. WebStorm's
-  // built-in server) don't follow correctly. Submitting via fetch and doing
-  // the redirect to danke.html ourselves keeps that navigation same-origin,
-  // so it works the same everywhere.
+  // Submit the reservation to Web3Forms via fetch instead of a plain HTML
+  // form POST, and do the redirect to danke.html ourselves. A plain POST
+  // would land on Web3Forms' own result page; this way the guest stays on
+  // our site and the navigation works the same on every server.
   const reservationForm = document.getElementById('reservationForm');
   const formStatus = document.getElementById('formStatus');
 
@@ -525,16 +523,18 @@ document.addEventListener('DOMContentLoaded', () => {
     renderGuests();
   }
 
-  // If FormSubmit is unreachable or rejects the request, don't lose the guest:
+  // If Web3Forms is unreachable or rejects the request, don't lose the guest:
   // offer a mailto link with their reservation details already filled in.
+  // Web3Forms' own hidden fields are left out of the email body.
+  const FORM_META_FIELDS = new Set(['access_key', 'subject', 'from_name', 'botcheck']);
   const showMailFallback = (recipient, payload) => {
     const labels = { email: 'E-Mail' };
     const body = Object.entries(payload)
-      .filter(([key, value]) => !key.startsWith('_') && String(value).trim())
+      .filter(([key, value]) => !FORM_META_FIELDS.has(key) && String(value).trim())
       .map(([key, value]) => `${labels[key] || key}: ${value}`)
       .join('\r\n');
     const link = document.createElement('a');
-    link.href = `mailto:${recipient}?subject=${encodeURIComponent(payload._subject || 'Tischreservierung')}&body=${encodeURIComponent(body)}`;
+    link.href = `mailto:${recipient}?subject=${encodeURIComponent(payload.subject || 'Tischreservierung')}&body=${encodeURIComponent(body)}`;
     link.textContent = recipient;
     formStatus.textContent = 'Senden fehlgeschlagen. Bitte versuchen Sie es erneut oder schicken Sie uns Ihre Reservierung per E-Mail (Ihre Angaben sind schon eingetragen): ';
     formStatus.append(link);
@@ -557,9 +557,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const payload = {};
       new FormData(reservationForm).forEach((value, key) => { payload[key] = value; });
-      const recipient = reservationForm.action.split('/').pop();
+      const recipient = reservationForm.dataset.mailto;
 
-      fetch(`https://formsubmit.co/ajax/${encodeURIComponent(recipient)}`, {
+      fetch(reservationForm.action, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
         body: JSON.stringify(payload)
@@ -569,8 +569,8 @@ document.addEventListener('DOMContentLoaded', () => {
           return response.json();
         })
         .then(result => {
-          // FormSubmit can answer 200 with success "false" (e.g. form not
-          // activated) — the reservation wasn't delivered then.
+          // Don't send the guest to danke.html if Web3Forms says the
+          // reservation wasn't delivered (success: false).
           if (String(result.success) === 'false') throw new Error(result.message || 'Request rejected');
           window.location.href = new URL('danke.html', window.location.href).href;
         })
