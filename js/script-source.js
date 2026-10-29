@@ -525,6 +525,21 @@ document.addEventListener('DOMContentLoaded', () => {
     renderGuests();
   }
 
+  // If FormSubmit is unreachable or rejects the request, don't lose the guest:
+  // offer a mailto link with their reservation details already filled in.
+  const showMailFallback = (recipient, payload) => {
+    const labels = { email: 'E-Mail' };
+    const body = Object.entries(payload)
+      .filter(([key, value]) => !key.startsWith('_') && String(value).trim())
+      .map(([key, value]) => `${labels[key] || key}: ${value}`)
+      .join('\r\n');
+    const link = document.createElement('a');
+    link.href = `mailto:${recipient}?subject=${encodeURIComponent(payload._subject || 'Tischreservierung')}&body=${encodeURIComponent(body)}`;
+    link.textContent = recipient;
+    formStatus.textContent = 'Senden fehlgeschlagen. Bitte versuchen Sie es erneut oder schicken Sie uns Ihre Reservierung per E-Mail (Ihre Angaben sind schon eingetragen): ';
+    formStatus.append(link);
+  };
+
   if (reservationForm) {
     reservationForm.addEventListener('submit', (event) => {
       event.preventDefault();
@@ -542,19 +557,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const payload = {};
       new FormData(reservationForm).forEach((value, key) => { payload[key] = value; });
+      const recipient = reservationForm.action.split('/').pop();
 
-      fetch(`https://formsubmit.co/ajax/${encodeURIComponent(reservationForm.action.split('/').pop())}`, {
+      fetch(`https://formsubmit.co/ajax/${encodeURIComponent(recipient)}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
         body: JSON.stringify(payload)
       })
         .then(response => {
           if (!response.ok) throw new Error('Request failed');
+          return response.json();
+        })
+        .then(result => {
+          // FormSubmit can answer 200 with success "false" (e.g. form not
+          // activated) — the reservation wasn't delivered then.
+          if (String(result.success) === 'false') throw new Error(result.message || 'Request rejected');
           window.location.href = new URL('danke.html', window.location.href).href;
         })
         .catch(() => {
           submitButton.disabled = false;
-          formStatus.textContent = 'Senden fehlgeschlagen. Bitte versuchen Sie es erneut oder rufen Sie uns an.';
+          showMailFallback(recipient, payload);
         });
     });
   }
