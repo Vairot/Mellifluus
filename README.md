@@ -57,36 +57,30 @@ To just rebuild the bundle without serving (e.g. before committing), run
 
 ## Reservation form
 
-The form on the Reservierung section posts to [FormSubmit](https://formsubmit.co) which forwards
-submissions straight to **info@mellifluus.de** — no backend/server needed.
+The form on the Reservierung section sends to [Web3Forms](https://web3forms.com), which
+forwards submissions straight to **info@mellifluus.de** — no backend/server needed.
+(It used FormSubmit until October 2026, when formsubmit.co went down.)
 
-**One-time activation:** the very first time the form is submitted, FormSubmit sends a
-confirmation email to that inbox — you must click the confirmation link there before
-further submissions get delivered. Test it once after deploying.
+**Access key:** the hidden `access_key` field in `index.html` ties the form to that
+inbox. A key is created on [web3forms.com](https://web3forms.com) by entering the
+inbox address (no account or password) and is emailed there. It is meant to be
+public in the HTML — it can only send to the inbox it was created for.
 
 Notes:
-- The form submits via FormSubmit's AJAX endpoint (`js/script.js`) instead of a
-  plain HTML POST, and redirects to `danke.html` itself on success. A plain POST
-  relies on FormSubmit's server issuing an HTTP redirect to `_next`, which some
-  local dev servers (e.g. WebStorm's built-in server) don't follow correctly —
-  submitting via `fetch` and doing the redirect ourselves works the same
-  everywhere.
-- If FormSubmit is unreachable (e.g. its server is down) or answers `success: "false"`
-  (e.g. form not activated), the guest is not sent to `danke.html`. Instead the form
-  shows a `mailto:` link to the recipient with the reservation details pre-filled, so
-  no booking is lost.
-- `_captcha=false` skips FormSubmit's captcha redirect for a smoother UX; a
-  hidden honeypot field (`_honey`) is used instead to catch basic spam bots.
+- The form submits via `fetch` (`js/script.js`) instead of a plain HTML POST and
+  redirects to `danke.html` itself on success, so the guest stays on our site
+  instead of landing on Web3Forms' result page.
+- If Web3Forms is unreachable or answers `success: false`, the guest is not sent
+  to `danke.html`. Instead the form shows a `mailto:` link to the address in the
+  form's `data-mailto` attribute, with the reservation details pre-filled, so no
+  booking is lost.
+- Spam: Web3Forms runs a server-side spam check, plus a hidden `botcheck`
+  checkbox (honeypot) catches basic bots.
+- Free plan: 250 submissions per month.
 - The guest only sees the on-page `danke.html` thank-you — there's no follow-up
-  confirmation email to them. FormSubmit's `_autoresponse` feature could send
-  one, but its free tier only supports a plain-text message (confirmed by
-  testing: no logo, no styling, just line-broken text), and it also requires
-  disabling both the AJAX submission and `_captcha=false` above, which brings
-  back FormSubmit's captcha-click UX cost for every guest. Given the
-  autoresponse can't currently be made to look intentional, it's left out
-  entirely rather than shipped half-finished.
-- If you ever want to switch the recipient address, just change the email in the
-  form's `action` attribute in `index.html`.
+  confirmation email to them (Web3Forms' autoresponder is a paid Pro feature).
+- To switch the recipient address, create a new access key for the new address,
+  put it in `access_key`, and update `data-mailto` on the form.
 
 ## Analytics
 
