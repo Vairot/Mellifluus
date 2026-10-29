@@ -74,6 +74,10 @@ Notes:
   to `danke.html`. Instead the form shows a `mailto:` link to the address in the
   form's `data-mailto` attribute, with the reservation details pre-filled, so no
   booking is lost.
+- The script formats the reservation email (free plan: content only, not the
+  layout): the subject shows the booking at a glance
+  (`Reservierung: Fr, 30.10. · 12:30 Uhr · 2 Personen · Name`), the date gets its
+  weekday, the booking details come first, and empty fields are left out.
 - Spam: Web3Forms runs a server-side spam check, plus a hidden `botcheck`
   checkbox (honeypot) catches basic bots.
 - Free plan: 250 submissions per month.
