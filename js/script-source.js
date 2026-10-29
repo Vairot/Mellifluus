@@ -523,18 +523,39 @@ document.addEventListener('DOMContentLoaded', () => {
     renderGuests();
   }
 
+  // Shape the form fields into what the café reads in the reservation email:
+  // a subject with the key facts (visible right in the inbox), the date with
+  // its weekday, the booking details first, and empty fields left out.
+  const WEEKDAYS = ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'];
+  const describeReservation = (fields) => {
+    const day = new Date(fields.Datum + 'T00:00:00');
+    const weekday = WEEKDAYS[day.getDay()];
+    const shortDate = `${pad(day.getDate())}.${pad(day.getMonth() + 1)}.`;
+    const time = `${fields.Uhrzeit} Uhr`;
+    const guests = fields.Personen === '1' ? '1 Person' : `${fields.Personen} Personen`;
+    const details = Object.fromEntries(Object.entries({
+      Name: fields.Name,
+      Datum: `${weekday}, ${shortDate}${day.getFullYear()}`,
+      Uhrzeit: time,
+      Personen: fields.Personen,
+      Telefon: fields.Telefon,
+      email: fields.email,
+      Nachricht: fields.Nachricht,
+    }).map(([key, value]) => [key, String(value ?? '').trim()]).filter(([, value]) => value));
+    return {
+      subject: `Reservierung: ${weekday.slice(0, 2)}, ${shortDate} · ${time} · ${guests} · ${details.Name}`,
+      details,
+    };
+  };
+
   // If Web3Forms is unreachable or rejects the request, don't lose the guest:
   // offer a mailto link with their reservation details already filled in.
-  // Web3Forms' own hidden fields are left out of the email body.
-  const FORM_META_FIELDS = new Set(['access_key', 'subject', 'from_name', 'botcheck']);
-  const showMailFallback = (recipient, payload) => {
-    const labels = { email: 'E-Mail' };
-    const body = Object.entries(payload)
-      .filter(([key, value]) => !FORM_META_FIELDS.has(key) && String(value).trim())
-      .map(([key, value]) => `${labels[key] || key}: ${value}`)
+  const showMailFallback = (recipient, subject, details) => {
+    const body = Object.entries(details)
+      .map(([key, value]) => `${key === 'email' ? 'E-Mail' : key}: ${value}`)
       .join('\r\n');
     const link = document.createElement('a');
-    link.href = `mailto:${recipient}?subject=${encodeURIComponent(payload.subject || 'Tischreservierung')}&body=${encodeURIComponent(body)}`;
+    link.href = `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     link.textContent = recipient;
     formStatus.textContent = 'Senden fehlgeschlagen. Bitte versuchen Sie es erneut oder schicken Sie uns Ihre Reservierung per E-Mail (Ihre Angaben sind schon eingetragen): ';
     formStatus.append(link);
@@ -555,8 +576,13 @@ document.addEventListener('DOMContentLoaded', () => {
       submitButton.disabled = true;
       formStatus.textContent = 'Wird gesendet ...';
 
-      const payload = {};
-      new FormData(reservationForm).forEach((value, key) => { payload[key] = value; });
+      const fields = {};
+      new FormData(reservationForm).forEach((value, key) => { fields[key] = value; });
+      const { subject, details } = describeReservation(fields);
+      // Web3Forms' own fields first, then the details in reading order.
+      // botcheck is undefined unless a bot ticked it, and JSON drops it then.
+      const { access_key, from_name, botcheck } = fields;
+      const payload = { access_key, from_name, botcheck, subject, ...details };
       const recipient = reservationForm.dataset.mailto;
 
       fetch(reservationForm.action, {
@@ -576,7 +602,7 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .catch(() => {
           submitButton.disabled = false;
-          showMailFallback(recipient, payload);
+          showMailFallback(recipient, subject, details);
         });
     });
   }
