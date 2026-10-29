@@ -71,6 +71,10 @@ Notes:
   local dev servers (e.g. WebStorm's built-in server) don't follow correctly —
   submitting via `fetch` and doing the redirect ourselves works the same
   everywhere.
+- If FormSubmit is unreachable (e.g. its server is down) or answers `success: "false"`
+  (e.g. form not activated), the guest is not sent to `danke.html`. Instead the form
+  shows a `mailto:` link to the recipient with the reservation details pre-filled, so
+  no booking is lost.
 - `_captcha=false` skips FormSubmit's captcha redirect for a smoother UX; a
   hidden honeypot field (`_honey`) is used instead to catch basic spam bots.
 - The guest only sees the on-page `danke.html` thank-you — there's no follow-up
