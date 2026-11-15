@@ -438,24 +438,17 @@ document.addEventListener('DOMContentLoaded', () => {
   // closed day is over, the popup is shown on every visit (OK / Escape / a click on the
   // backdrop closes it for that page view - nothing is stored), the note in the
   // reservation section is shown, and the form refuses those days (see validateDate).
-  // From data-lock-from (default: data-from) until the last closed day the whole form is
-  // locked: every field and button is disabled and a note explains why.
+  // The form stays usable; picking a closed day shows the red #closureWarning and is refused.
   // No such element -> nothing happens.
   const closureNotice = document.getElementById('closureNotice');
   const closureFrom = closureNotice ? closureNotice.dataset.from || '' : '';
   const closureTo = closureNotice ? closureNotice.dataset.to || '' : '';
-  const closureLockFrom = closureNotice ? closureNotice.dataset.lockFrom || closureFrom : '';
+  const closureWarning = document.getElementById('closureWarning');
   const closureActive = Boolean(closureFrom && closureTo) && todayStr() <= closureTo;
-  const closureLocked = closureActive && todayStr() >= closureLockFrom;
   const dayMonth = (iso) => `${iso.slice(8, 10)}.${iso.slice(5, 7)}.`;
   if (closureActive) {
     const closeClosureNotice = () => { closureNotice.hidden = true; };
     document.querySelectorAll('[data-closure-note]').forEach((el) => { el.hidden = false; });
-    if (closureLocked && reservationForm) {
-      reservationForm.classList.add('is-locked');
-      reservationForm.querySelectorAll('input:not([type="hidden"]), textarea, button').forEach((el) => { el.disabled = true; });
-      reservationForm.querySelectorAll('[data-closure-lock]').forEach((el) => { el.hidden = false; });
-    }
     closureNotice.hidden = false;
     document.getElementById('closureOkBtn')?.addEventListener('click', closeClosureNotice);
     closureNotice.addEventListener('click', (event) => {
@@ -473,8 +466,15 @@ document.addEventListener('DOMContentLoaded', () => {
     return hhmm > '09:00' ? hhmm : '09:00';
   };
   const validateDate = () => {
-    if (!dateInput || !dateInput.value) return;
-    if (closureActive && dateInput.value >= closureFrom && dateInput.value <= closureTo) {
+    if (!dateInput) return;
+    if (!dateInput.value) {
+      dateInput.setCustomValidity('');
+      if (closureWarning) closureWarning.hidden = true;
+      return;
+    }
+    const inClosure = closureActive && dateInput.value >= closureFrom && dateInput.value <= closureTo;
+    if (closureWarning) closureWarning.hidden = !inClosure;
+    if (inClosure) {
       dateInput.setCustomValidity(`Vom ${dayMonth(closureFrom)} bis ${dayMonth(closureTo)} sind wir im Betriebsurlaub. Bitte wählen Sie einen anderen Tag.`);
       return;
     }
@@ -506,7 +506,8 @@ document.addEventListener('DOMContentLoaded', () => {
     dateInput.addEventListener('input', () => {
       validateDate();
       validateTime();
-      dateInput.reportValidity();
+      // a closed day is explained by the red #closureWarning, so skip the browser's bubble
+      if (!closureWarning || closureWarning.hidden) dateInput.reportValidity();
     });
   }
   if (timeInput) {
@@ -602,12 +603,16 @@ document.addEventListener('DOMContentLoaded', () => {
   if (reservationForm) {
     reservationForm.addEventListener('submit', (event) => {
       event.preventDefault();
-      if (closureLocked) return; // the form is locked during the Betriebsurlaub
       validateDate();
       validateTime();
       validatePhone();
       if (!reservationForm.checkValidity()) {
-        reservationForm.reportValidity();
+        if (closureWarning && !closureWarning.hidden) {
+          // closed day: the red text explains it - bring it into view instead of a bubble
+          closureWarning.scrollIntoView({ block: 'center', behavior: 'smooth' });
+        } else {
+          reservationForm.reportValidity();
+        }
         return;
       }
 
