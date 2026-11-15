@@ -1024,6 +1024,24 @@ a:hover { color: var(--green-light); }
   color: var(--green-dark);
 }
 .reservation-form .btn-primary { width: 100%; padding: 15px 34px; font-size: 16px; }
+
+/* Locked while the café is on Betriebsurlaub (set by js/script-source.js): every field and
+   both buttons are disabled; the dimmed look + the note at the top say why. */
+.form-locked-note {
+  padding: 14px 16px;
+  border: 1px solid rgba(162, 74, 52, 0.35);
+  border-radius: 4px;
+  background: rgba(162, 74, 52, 0.07);
+  color: var(--closed);
+  font-size: 15px;
+  line-height: 1.5;
+}
+.reservation-form.is-locked .field,
+.reservation-form.is-locked .form-footer { opacity: 0.45; }
+.reservation-form.is-locked input:disabled,
+.reservation-form.is-locked textarea:disabled,
+.reservation-form.is-locked button:disabled { cursor: not-allowed; }
+
 .form-status { font-size: 14px; color: var(--text-muted); }
 .form-status:empty { display: none; }
 

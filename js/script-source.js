@@ -438,15 +438,24 @@ document.addEventListener('DOMContentLoaded', () => {
   // closed day is over, the popup is shown on every visit (OK / Escape / a click on the
   // backdrop closes it for that page view - nothing is stored), the note in the
   // reservation section is shown, and the form refuses those days (see validateDate).
+  // From data-lock-from (default: data-from) until the last closed day the whole form is
+  // locked: every field and button is disabled and a note explains why.
   // No such element -> nothing happens.
   const closureNotice = document.getElementById('closureNotice');
   const closureFrom = closureNotice ? closureNotice.dataset.from || '' : '';
   const closureTo = closureNotice ? closureNotice.dataset.to || '' : '';
+  const closureLockFrom = closureNotice ? closureNotice.dataset.lockFrom || closureFrom : '';
   const closureActive = Boolean(closureFrom && closureTo) && todayStr() <= closureTo;
+  const closureLocked = closureActive && todayStr() >= closureLockFrom;
   const dayMonth = (iso) => `${iso.slice(8, 10)}.${iso.slice(5, 7)}.`;
   if (closureActive) {
     const closeClosureNotice = () => { closureNotice.hidden = true; };
     document.querySelectorAll('[data-closure-note]').forEach((el) => { el.hidden = false; });
+    if (closureLocked && reservationForm) {
+      reservationForm.classList.add('is-locked');
+      reservationForm.querySelectorAll('input:not([type="hidden"]), textarea, button').forEach((el) => { el.disabled = true; });
+      reservationForm.querySelectorAll('[data-closure-lock]').forEach((el) => { el.hidden = false; });
+    }
     closureNotice.hidden = false;
     document.getElementById('closureOkBtn')?.addEventListener('click', closeClosureNotice);
     closureNotice.addEventListener('click', (event) => {
@@ -593,6 +602,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (reservationForm) {
     reservationForm.addEventListener('submit', (event) => {
       event.preventDefault();
+      if (closureLocked) return; // the form is locked during the Betriebsurlaub
       validateDate();
       validateTime();
       validatePhone();
