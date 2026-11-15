@@ -1025,9 +1025,22 @@ a:hover { color: var(--green-light); }
 }
 .reservation-form .btn-primary { width: 100%; padding: 15px 34px; font-size: 16px; }
 
-/* Locked while the café is on Betriebsurlaub (set by js/script-source.js): every field and
-   both buttons are disabled; the dimmed look + the note at the top say why. */
-.form-locked-note {
+/* The Betriebsurlaub line in the dark panel: a light box with bold red text, so it can't be missed. */
+.reservation-closure-note {
+  margin-top: 6px;
+  padding: 12px 14px;
+  border-radius: 4px;
+  background: var(--cream);
+  color: var(--closed);
+  font-family: var(--font-body);
+  font-style: normal;
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+/* Red notice under the date/time row: shown while a closed (Betriebsurlaub) day is picked. */
+.form-closure-warning {
   padding: 14px 16px;
   border: 1px solid rgba(162, 74, 52, 0.35);
   border-radius: 4px;
@@ -1036,12 +1049,6 @@ a:hover { color: var(--green-light); }
   font-size: 15px;
   line-height: 1.5;
 }
-.reservation-form.is-locked .field,
-.reservation-form.is-locked .form-footer { opacity: 0.45; }
-.reservation-form.is-locked input:disabled,
-.reservation-form.is-locked textarea:disabled,
-.reservation-form.is-locked button:disabled { cursor: not-allowed; }
-
 .form-status { font-size: 14px; color: var(--text-muted); }
 .form-status:empty { display: none; }
 

@@ -16,11 +16,10 @@
 <!-- Betriebsurlaub-Hinweis: Popup in der Bildschirmmitte mit OK-Button, erscheint bei jedem Besuch.
      data-from / data-to = erster / letzter Urlaubstag (JJJJ-MM-TT, inklusive).
      Erscheint automatisch bis zum letzten Urlaubstag und blendet sich danach aus. Der Cookie-Banner
-     bleibt darüber sichtbar und bedienbar. Das Reservierungsformular sperrt die Urlaubstage; ab
-     data-lock-from (bis data-to) ist das ganze Formular gesperrt (Felder + Button, js/script-source.js).
-     data-lock-from früher setzen = Formular schon früher sperren; weglassen = ab data-from.
-     Nächstes Mal: Daten + Text hier, die Notiz unter "Öffnungszeiten" und den Hinweis im Formular anpassen. -->
-<div class="closure-overlay" id="closureNotice" data-from="2026-11-25" data-to="2026-11-30" data-lock-from="2026-11-25" hidden>
+     bleibt darüber sichtbar und bedienbar. Das Reservierungsformular bleibt benutzbar, lehnt aber
+     die Urlaubstage ab und zeigt dann den roten Hinweis #closureWarning (js/script-source.js).
+     Nächstes Mal: Daten + Text hier, die Notiz unter "Öffnungszeiten" und den roten Hinweis im Formular anpassen. -->
+<div class="closure-overlay" id="closureNotice" data-from="2026-11-25" data-to="2026-11-30" hidden>
   <div class="closure-card" role="dialog" aria-labelledby="closureTitle">
     <p class="closure-card-title" id="closureTitle">
       <svg class="closure-card-icon" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
@@ -466,7 +465,7 @@
           <span class="reservation-hours-label">Öffnungszeiten</span>
           <span>Mo, Mi, Do 9–18 Uhr · Fr–So 9–19 Uhr</span>
           <span class="reservation-hours-note">Dienstags ist Ruhetag – an diesem Tag sind leider keine Reservierungen möglich.</span>
-          <span class="reservation-hours-note" data-closure-note hidden>Vom 25.&nbsp;bis&nbsp;30.&nbsp;November ist Betriebsurlaub – in dieser Zeit sind keine Reservierungen möglich.</span>
+          <span class="reservation-hours-note reservation-closure-note" data-closure-note hidden>Vom 25.&nbsp;bis&nbsp;30.&nbsp;November ist Betriebsurlaub – in dieser Zeit sind keine Reservierungen möglich.</span>
         </div>
       </div>
 
@@ -475,8 +474,6 @@
         <input type="hidden" name="subject" value="Neue Tischreservierung – Mellifluus">
         <input type="hidden" name="from_name" value="Mellifluus Website">
         <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off">
-
-        <p class="form-locked-note" data-closure-lock hidden>Das Reservierungsformular ist wegen des Betriebsurlaubs vom 25.&nbsp;bis&nbsp;30.&nbsp;November gesperrt. Ab Mittwoch, 2.&nbsp;Dezember sind wir wieder für Sie da.</p>
 
         <label class="field">Name
           <input type="text" id="name" name="Name" autocomplete="name" required>
@@ -499,6 +496,8 @@
             <input type="time" id="time" name="Uhrzeit" required min="09:00" max="19:00">
           </label>
         </div>
+
+        <p class="form-closure-warning" id="closureWarning" role="alert" hidden>Vom 25.&nbsp;bis&nbsp;30.&nbsp;November ist Betriebsurlaub – an diesen Tagen sind keine Reservierungen möglich. Bitte wählen Sie einen anderen Tag. Ab Mittwoch, 2.&nbsp;Dezember sind wir wieder für Sie da.</p>
 
         <label class="field">Nachricht (optional)
           <textarea id="message" name="Nachricht" rows="2" placeholder="Besondere Wünsche, Allergien, Anlass ..."></textarea>

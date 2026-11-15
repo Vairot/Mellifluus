@@ -99,16 +99,13 @@ form blocks those days.
   page view only; nothing is stored in the browser. The reservation note stays.
 - The cookie banner is shown at the same time and stays on top (higher `z-index`). On phones the popup
   centres in the space above it (`padding-bottom` while `#cookieBanner` exists) so they don't overlap.
-- While it is active, the reservation form refuses those dates (message: "Vom 25.11. bis 30.11. sind
-  wir im Betriebsurlaub …"), so visitors before the break can still book other days.
-- **From `data-lock-from` until the last closed day the whole form is locked**: every field and both
-  buttons are disabled, the section is dimmed and a red note at the top of the form says why
-  (`.is-locked`, `[data-closure-lock]`). `data-lock-from` defaults to `data-from`; set it earlier to lock
-  the form earlier (this also stops bookings for the days after the break), or omit it to lock exactly
-  during the closure.
-- Both are browser-side checks like the Tuesday rule — there is no backend behind the form that could
-  enforce them.
-- **Next closure:** edit the two dates plus the German wording in the popup and in the note (the text is
+- **The reservation form stays fully usable.** Only the closed days are refused: picking one of them shows a
+  red text box under the date/time row (`#closureWarning`, with the vacation dates) and the browser's
+  message "Vom 25.11. bis 30.11. sind wir im Betriebsurlaub …"; the form can't be sent with such a date.
+  All other days (before and after the break) can be booked as usual.
+- This is a browser-side check like the Tuesday rule — there is no backend behind the form that could
+  enforce it.
+- **Next closure:** edit the two dates plus the German wording in the popup, the note and the red warning (the text is
   hand-written, not generated), and double-check the reopening weekday (Tuesday is the Ruhetag). Only
   `index.html` changes — no JS rebuild needed. After the break the markup can stay or be deleted;
   without `#closureNotice` the feature does nothing.
