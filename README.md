@@ -86,6 +86,27 @@ Notes:
 - To switch the recipient address, create a new access key for the new address,
   put it in `access_key`, and update `data-mailto` on the form.
 
+## Betriebsurlaub (closure notice)
+
+A popup in the middle of the screen (`#closureNotice` in `index.html`, dimmed backdrop, **OK** button)
+announces a closure, a matching note appears under "Öffnungszeiten" in the reservation section, and the
+form blocks those days.
+
+- **The dates are set once**, as `data-from` / `data-to` on `#closureNotice` (first and last closed
+  day, `YYYY-MM-DD`, inclusive). `js/script-source.js` shows the popup and the note until the last closed
+  day is over — then everything disappears by itself.
+- **The popup appears on every visit/page load.** OK, Escape or a click on the backdrop closes it for that
+  page view only; nothing is stored in the browser. The reservation note stays.
+- The cookie banner is shown at the same time and stays on top (higher `z-index`). On phones the popup
+  centres in the space above it (`padding-bottom` while `#cookieBanner` exists) so they don't overlap.
+- While it is active, the reservation form refuses those dates (message: "Vom 25.11. bis 30.11. sind
+  wir im Betriebsurlaub …"). Like the Tuesday rule this is a browser-side check — there is no backend
+  behind the form that could enforce it.
+- **Next closure:** edit the two dates plus the German wording in the popup and in the note (the text is
+  hand-written, not generated), and double-check the reopening weekday (Tuesday is the Ruhetag). Only
+  `index.html` changes — no JS rebuild needed. After the break the markup can stay or be deleted;
+  without `#closureNotice` the feature does nothing.
+
 ## Analytics
 
 ### Web Analytics

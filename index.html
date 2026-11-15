@@ -13,6 +13,26 @@
 </head>
 <body>
 
+<!-- Betriebsurlaub-Hinweis: Popup in der Bildschirmmitte mit OK-Button, erscheint bei jedem Besuch.
+     data-from / data-to = erster / letzter Urlaubstag (JJJJ-MM-TT, inklusive).
+     Erscheint automatisch bis zum letzten Urlaubstag und blendet sich danach aus. Der Cookie-Banner
+     bleibt darüber sichtbar und bedienbar. Das Reservierungsformular sperrt die Tage
+     (js/script-source.js). Nächstes Mal: Daten + Text hier und die Notiz unter "Öffnungszeiten"
+     im Reservierungsbereich anpassen. -->
+<div class="closure-overlay" id="closureNotice" data-from="2026-11-25" data-to="2026-11-30" hidden>
+  <div class="closure-card" role="dialog" aria-labelledby="closureTitle">
+    <p class="closure-card-title" id="closureTitle">
+      <svg class="closure-card-icon" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="4"></circle>
+        <path d="M12 3v2.2M12 18.8V21M3 12h2.2M18.8 12H21M5.6 5.6l1.6 1.6M16.8 16.8l1.6 1.6M5.6 18.4l1.6-1.6M16.8 7.2l1.6-1.6"></path>
+      </svg>
+      <span>Betriebsurlaub vom 25.&nbsp;bis&nbsp;30.&nbsp;November</span>
+    </p>
+    <p class="closure-card-text">Ab Mittwoch, 2.&nbsp;Dezember sind wir wieder für Sie da. In dieser Zeit sind leider keine Reservierungen möglich.</p>
+    <button type="button" class="btn btn-dark" id="closureOkBtn">OK</button>
+  </div>
+</div>
+
 <header class="site-header">
   <div class="container header-inner">
     <a href="#top" class="brand">
@@ -445,6 +465,7 @@
           <span class="reservation-hours-label">Öffnungszeiten</span>
           <span>Mo, Mi, Do 9–18 Uhr · Fr–So 9–19 Uhr</span>
           <span class="reservation-hours-note">Dienstags ist Ruhetag – an diesem Tag sind leider keine Reservierungen möglich.</span>
+          <span class="reservation-hours-note" data-closure-note hidden>Vom 25.&nbsp;bis&nbsp;30.&nbsp;November ist Betriebsurlaub – in dieser Zeit sind keine Reservierungen möglich.</span>
         </div>
       </div>
 

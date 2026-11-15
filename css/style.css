@@ -910,6 +910,7 @@ a:hover { color: var(--green-light); }
 .reservation-hours-note {
   font-family: var(--font-heading);
   font-style: italic;
+  font-variant-numeric: lining-nums; /* dates in the closure note: "30." not "3o." */
   color: var(--gold-light);
 }
 
@@ -1173,6 +1174,60 @@ a:hover { color: var(--green-light); }
   padding: 11px 18px;
   font-size: 14px;
   white-space: nowrap;
+}
+
+/* Betriebsurlaub notice: a popup in the middle of the screen on a dimmed backdrop, with an
+   OK button; shown on every visit. It sits just below the cookie banner's z-index, so the
+   cookie banner stays on top and usable. On phones the popup centres in the space above the
+   cookie banner (padding-bottom) so the two don't overlap. */
+.closure-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 190;
+  display: flex;
+  overflow-y: auto;
+  padding: clamp(12px, 3vw, 24px);
+  background: rgba(31, 53, 41, 0.55);
+}
+.closure-card {
+  width: 100%;
+  max-width: 440px;
+  margin: auto; /* centres, and never clips the top when the screen is short */
+  padding: 26px 26px 24px;
+  background: var(--card);
+  color: var(--text-dark);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.3);
+}
+@media (max-width: 639px) {
+  body:has(#cookieBanner) .closure-overlay { padding-bottom: 310px; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .closure-overlay { transition: padding-bottom 0.25s ease; }
+}
+.closure-card-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-heading);
+  font-size: 19px;
+  font-weight: 600;
+  line-height: 1.3;
+  font-variant-numeric: lining-nums; /* Playfair's default old-style "30" reads like "3o" */
+  color: var(--green-dark);
+}
+.closure-card-icon { flex-shrink: 0; color: var(--gold-deep); }
+.closure-card-text {
+  margin-top: 8px;
+  font-size: 14.5px;
+  line-height: 1.6;
+}
+.closure-card .btn {
+  width: 100%;
+  margin-top: 16px;
+  padding: 11px 18px;
+  font-size: 14px;
 }
 
 /* Legal pages (Datenschutz / Impressum) */

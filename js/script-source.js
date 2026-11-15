@@ -432,6 +432,31 @@ document.addEventListener('DOMContentLoaded', () => {
     const d = new Date();
     return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
   };
+
+  // Betriebsurlaub: first/last closed day (inclusive, YYYY-MM-DD) come from
+  // data-from / data-to on #closureNotice (the popup) in index.html. Until the last
+  // closed day is over, the popup is shown on every visit (OK / Escape / a click on the
+  // backdrop closes it for that page view - nothing is stored), the note in the
+  // reservation section is shown, and the form refuses those days (see validateDate).
+  // No such element -> nothing happens.
+  const closureNotice = document.getElementById('closureNotice');
+  const closureFrom = closureNotice ? closureNotice.dataset.from || '' : '';
+  const closureTo = closureNotice ? closureNotice.dataset.to || '' : '';
+  const closureActive = Boolean(closureFrom && closureTo) && todayStr() <= closureTo;
+  const dayMonth = (iso) => `${iso.slice(8, 10)}.${iso.slice(5, 7)}.`;
+  if (closureActive) {
+    const closeClosureNotice = () => { closureNotice.hidden = true; };
+    document.querySelectorAll('[data-closure-note]').forEach((el) => { el.hidden = false; });
+    closureNotice.hidden = false;
+    document.getElementById('closureOkBtn')?.addEventListener('click', closeClosureNotice);
+    closureNotice.addEventListener('click', (event) => {
+      if (event.target === closureNotice) closeClosureNotice();
+    });
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && !closureNotice.hidden) closeClosureNotice();
+    });
+  }
+
   const minTimeForDate = (dateStr) => {
     if (dateStr !== todayStr()) return '09:00';
     const min = new Date(Date.now() + 2 * 60 * 60 * 1000);
@@ -440,6 +465,10 @@ document.addEventListener('DOMContentLoaded', () => {
   };
   const validateDate = () => {
     if (!dateInput || !dateInput.value) return;
+    if (closureActive && dateInput.value >= closureFrom && dateInput.value <= closureTo) {
+      dateInput.setCustomValidity(`Vom ${dayMonth(closureFrom)} bis ${dayMonth(closureTo)} sind wir im Betriebsurlaub. Bitte wählen Sie einen anderen Tag.`);
+      return;
+    }
     const day = new Date(dateInput.value + 'T00:00:00').getDay();
     if (day === 2) {
       dateInput.setCustomValidity('Dienstags ist Ruhetag. Bitte wählen Sie einen anderen Tag.');
